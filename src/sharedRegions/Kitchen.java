@@ -68,13 +68,13 @@ public class Kitchen {
 
 	public synchronized boolean haveAllPortionsBeenDelivered() {
 		
-		while (nPortionsServed != 0) {
+		while (nPortionsReady != 0) {
 			try
-	        { wait ();
+	        { wait();
 	        }
 	        catch (InterruptedException e) {}
 		}
-		
+		System.out.println("delivered");
 		if (nPortionsServed == SimulPar.N) {
 			
 			nCoursesServed++;
@@ -130,7 +130,6 @@ public class Kitchen {
 	}
 
 	public synchronized void collectPortion() {
-		
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.WAITING_FOR_PORTION);
 		repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
@@ -139,11 +138,11 @@ public class Kitchen {
 			{ wait();
 			} catch (InterruptedException e) {}
 		}
-		
+				
 		nPortionsReady--;
 		nPortionsServed++;
 		
-		if (nPortionsServed >= SimulPar.N) {
+		if (nPortionsServed > SimulPar.N) {
 			nPortionsServed = 1;
 		}
 

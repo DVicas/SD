@@ -41,6 +41,7 @@ public class Bar {
 		this.nPendingRequests = 0;
 		this.nStudentsInRestaurant = 0;
 		this.studentBeingAnswered = -1;
+		this.courseFinished = true;
 		
 		this.repo = repo;
 	}
@@ -201,6 +202,7 @@ public class Bar {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
 		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		
 		
 		notifyAll();
 		

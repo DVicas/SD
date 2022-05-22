@@ -49,11 +49,11 @@ public class Waiter extends Thread {
 					
 				//alert the waiter
 				case 'a':
-					do {
+					while(!table.haveAllClientsBeenServed()) {	
+						
 						kitchen.collectPortion();
 						table.deliverPortion();
-					} while(table.haveAllClientsBeenServed());
-					
+					}
 					table.returnToBar();
 					break;
 					

@@ -25,6 +25,7 @@ public class Chef extends Thread {
 	public void run() {
 		
 		kitchen.watchTheNews();
+		
 		kitchen.startPreparation();
 		
 		boolean firstCourse = true;
@@ -37,10 +38,10 @@ public class Chef extends Thread {
 			
 			kitchen.proceedToPresentation();
 			bar.alertTheWaiter();
+			System.out.println("portion ready");
 			
 			while(!kitchen.haveAllPortionsBeenDelivered()) {
 				kitchen.haveNextPortionReady();
-				bar.alertTheWaiter();
 			}
 			
 		} while(!kitchen.hasTheOrderBeenCompleted());

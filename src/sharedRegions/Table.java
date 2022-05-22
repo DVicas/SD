@@ -178,6 +178,7 @@ public class Table {
 	
 	public synchronized void describeOrder() {
 		
+		System.out.println("LLLLLLLL");
 		// wait for waiter to get the pad
 		while (takingOrder == false) {
 			try 
@@ -219,10 +220,10 @@ public class Table {
 		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		try
-	      { Thread.sleep((long) (1 + 40 * Math.random()));
-	      }
-	      catch (InterruptedException e) {}
-		
+		{ Thread.sleep((long) (1 + 40 * Math.random()));
+		}
+		catch (InterruptedException e) {}
+
 	}
 	
 	public synchronized void endEating() {

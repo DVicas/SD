@@ -65,6 +65,7 @@ public class Student extends Thread {
 			if(table.lastToEat() == studentId && !table.isLastCourse() /*&& n == ExecuteConst.M */) {
 				bar.signalWaiter();
 			}
+			System.out.println("boi");
 		}
 		
 		if(table.shouldHaveArrivedEarlier()) {
