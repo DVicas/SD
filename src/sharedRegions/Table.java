@@ -119,7 +119,7 @@ public class Table {
 		
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		
-		students[id].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
+		students[firstStudent].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
 		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		//log his own order
@@ -137,22 +137,22 @@ public class Table {
 	
 	public synchronized boolean hasEverybodyChosen() {
 		
-		if (nOrders == SimulPar.N) return true;
+		if (nOrders == SimulPar.N) {
+			return true;
+		} else {
+			while(informingCompanion == false) {
+				try 
+				{ wait();
+				} catch (Exception e) { }
+			}
 		
-		while(informingCompanion == false) {
-			try 
-			{ wait();
-			} catch (Exception e) { }
+			return false;
 		}
-		
-		return false;
 	}
 	
 	public synchronized void addUpOnesChoice() {
 		nOrders++;
-		
 		informingCompanion = false;
-		
 		notifyAll();
 	}
 	
@@ -166,7 +166,6 @@ public class Table {
 		}
 		
 		informingCompanion = true;
-		
 		notifyAll();
 		
 		id = ((Student) Thread.currentThread()).getStudentId();
@@ -178,7 +177,6 @@ public class Table {
 	
 	public synchronized void describeOrder() {
 		
-		System.out.println("LLLLLLLL");
 		// wait for waiter to get the pad
 		while (takingOrder == false) {
 			try 
@@ -196,25 +194,32 @@ public class Table {
 
 	public synchronized boolean everyoneHasEaten() {
 		
-		if (nCourses == SimulPar.M) return true;
-		
-		
-		// wait for everyone to be served
-		while (nStudentsServed != SimulPar.N) {
-			
-			try
-			{ wait();
-			} catch (Exception e) { }
+		if (nCourses == SimulPar.M) { 
+			return true; 
 		}
-		System.out.println("Course " + nCourses + "Served");
-		
-		return false;
+		else {	
+			System.out.printf("served %d \n", nStudentsServed);
+			// wait for everyone to be served
+			while (nStudentsServed != SimulPar.N) {
+				try
+				{ wait();
+				} catch (Exception e) { }
+			}
+			System.out.println("Course " + nCourses + "Served");
+			
+//			System.out.printf("sai %d \n", ((Student) Thread.currentThread()).getStudentId());
+	
+			return false;
+		}
 	}
 
 
 	public synchronized void startEating() {
 		
 		int id = ((Student) Thread.currentThread()).getStudentId();
+		
+		System.out.printf("started %d \n", ((Student) Thread.currentThread()).getStudentId());
+
 		
 		students[id].setStudentState(StudentStates.ENJOYING_THE_MEAL);
 		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
@@ -230,9 +235,9 @@ public class Table {
 		
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		
-		nStudentsServed++;
+		nStudentsEaten++;
 		
-		if (nStudentsServed == SimulPar.N) {
+		if (nStudentsEaten == SimulPar.N) {
 			nCourses++;
 			
 			lastToEat = id;

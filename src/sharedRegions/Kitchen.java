@@ -32,7 +32,7 @@ public class Kitchen {
 		
 		while(!handedNoteToChef) {
 			try
-	        { wait ();
+	        { wait();
 	        }
 	        catch (InterruptedException e) {}
 		}
@@ -102,7 +102,6 @@ public class Kitchen {
 		if (nCoursesServed == SimulPar.M) {
 			return true;
 		}
-		
 		return false;
 	}
 

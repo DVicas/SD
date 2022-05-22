@@ -31,7 +31,7 @@ public class Bar {
 		}
 		
 		try {
-			reqQueue = new MemFIFO<>(new Request[SimulPar.N]);
+			reqQueue = new MemFIFO<>(new Request[SimulPar.N * SimulPar.M]);
 		} catch (MemException e) {
 			reqQueue = null;
 	        System.exit (1);
@@ -42,6 +42,11 @@ public class Bar {
 		this.nStudentsInRestaurant = 0;
 		this.studentBeingAnswered = -1;
 		this.courseFinished = true;
+		
+		this.studentsGreeted = new boolean[SimulPar.N];
+		for (int i = 0; i < SimulPar.N; i++) {
+			studentsGreeted[i] = false;
+		}
 		
 		this.repo = repo;
 	}
@@ -94,7 +99,6 @@ public class Bar {
 	public synchronized void enter() {
 		
 		int id = ((Student) Thread.currentThread()).getStudentId();
-
 		students[id] = ((Student) Thread.currentThread());
 		
 		nStudentsInRestaurant++;
@@ -135,11 +139,10 @@ public class Bar {
 	}
 	
 	public synchronized void signalWaiter() {
+		
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
-
 		if(((Student) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_MEAL)
 		{		
-			
 			try {
 				reqQueue.write(new Request(studentId, 'e'));
 			} catch (MemException e) {	}
@@ -149,13 +152,39 @@ public class Bar {
 			//Signal waiter of a pending request
 			notifyAll();
 			
-		}
-		else
-		{
-			courseFinished = true;		
+		} else {
+			System.out.println("SINGALING");
 
+			courseFinished = true;
 			notifyAll();
 		}
+	}
+
+
+	public synchronized void alertTheWaiter() {
+		
+		System.out.println("courseFinished");
+
+		while(!courseFinished)
+		{
+			try {
+				wait();
+			} catch (InterruptedException e1) { }
+		}
+		      
+		Request r = new Request(SimulPar.N+1,'a');
+		
+		try {
+			reqQueue.write(r);
+		} catch (MemException e) {}
+		
+		nPendingRequests++;
+		courseFinished = false;
+		
+		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		
+		notifyAll();
 	}
 
 	public synchronized void exit() {
@@ -182,32 +211,7 @@ public class Bar {
 		}
 		System.out.println("I want out "+id);		
 	}
-
-	public synchronized void alertTheWaiter() {
-		while(!courseFinished)
-		{
-			try {
-				wait();
-			} catch (InterruptedException e1) { }
-		}
-		
-		Request r = new Request(SimulPar.N+1,'a');
-		
-		try {
-			reqQueue.write(r);
-		} catch (MemException e) {}
-		
-		nPendingRequests++;
-		courseFinished = false;
-		
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
-		
-		
-		notifyAll();
-		
-	}
-
+	
 	public synchronized int getStudentBeingAnswered() {
 		return studentBeingAnswered;
 	}

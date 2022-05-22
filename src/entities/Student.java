@@ -1,5 +1,6 @@
 package entities;
 
+import main.SimulPar;
 import sharedRegions.Bar;
 
 import sharedRegions.Table;
@@ -55,17 +56,18 @@ public class Student extends Thread {
 			table.informCompanion();
 		}
 		
+		int nCoursesEaten = 0;
 		while(!table.everyoneHasEaten()) {
 			
 			table.startEating();
 			table.endEating();
+			nCoursesEaten++;
 			
 			while(!table.hasEveryoneFinishedPortion());
 			
-			if(table.lastToEat() == studentId && !table.isLastCourse() /*&& n == ExecuteConst.M */) {
+			if(table.lastToEat() == studentId) {
 				bar.signalWaiter();
 			}
-			System.out.println("boi");
 		}
 		
 		if(table.shouldHaveArrivedEarlier()) {

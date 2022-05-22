@@ -37,12 +37,14 @@ public class Chef extends Thread {
 			}
 			
 			kitchen.proceedToPresentation();
+
 			bar.alertTheWaiter();
 			System.out.println("portion ready");
 			
 			while(!kitchen.haveAllPortionsBeenDelivered()) {
 				kitchen.haveNextPortionReady();
 			}
+
 			
 		} while(!kitchen.hasTheOrderBeenCompleted());
 		

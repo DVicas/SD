@@ -29,7 +29,6 @@ public class Waiter extends Thread {
 		char status;
 
 		do {
-			
 			status = bar.lookAround();
 			
 			switch(status) {
