@@ -29,7 +29,7 @@ public class TheRestaurant {
 		table = new Table(repo);
 		
 		//nao passar o monitor table para dentro de outro monitor 
-		bar = new Bar(repo);
+		bar = new Bar(repo, table);
 		kitchen = new Kitchen(repo);
 		
 		chef = new Chef("Chef", kitchen, bar);

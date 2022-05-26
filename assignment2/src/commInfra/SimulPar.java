@@ -1,4 +1,4 @@
-package serverSide.main;
+package commInfra;
 
 public class SimulPar {
 	
@@ -11,6 +11,11 @@ public class SimulPar {
 	 * Number of courses per each meal
 	 */
 	public static final int M = 3;
+	
+	/**
+	 * Number of entities requesting Shutdown
+	 */
+	public static final int E = 2;
 	
 	/**
 	 * This class can not be initiated

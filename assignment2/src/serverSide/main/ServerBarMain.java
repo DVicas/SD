@@ -30,9 +30,9 @@ public class ServerBarMain
    *  Main method.
    *
    *    @param args runtime arguments
-   *        args[0] - port nunber for listening to service requests
+   *        args[0] - port number for listening to service requests
    *        args[1] - name of the platform where is located the server for the general repository
-   *        args[2] - port nunber where the server for the general repository is listening to service requests
+   *        args[2] - port number where the server for the general repository is listening to service requests
    */
 
    public static void main (String [] args)

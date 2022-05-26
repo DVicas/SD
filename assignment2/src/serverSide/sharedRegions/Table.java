@@ -1,7 +1,10 @@
 package serverSide.sharedRegions;
 
-import entities.*;
-import main.SimulPar;
+import serverSide.entities.*;
+import serverSide.main.*;
+import serverSide.sharedRegions.*;
+import commInfra.SimulPar;
+import genclass.GenericIO;
 
 public class Table {
 	

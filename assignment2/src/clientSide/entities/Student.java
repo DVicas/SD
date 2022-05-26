@@ -7,14 +7,14 @@ public class Student extends Thread {
 	private int studentId;
 	private int studentState;
 	
-	private Table table;
-	private Bar bar;
+	private TableStub tableStub;
+	private BarStub barStub;
 	
-	public Student(String name, int studentId, Table table, Bar bar) {
+	public Student(String name, int studentId, TableStub table, BarStub bar) {
 		super(name);
 		this.studentId = studentId;
-		this.table = table;
-		this.bar = bar;
+		this.tableStub = table;
+		this.barStub = bar;
 		studentState = StudentStates.GOING_TO_THE_RESTAURANT;
 	}
 	
@@ -35,42 +35,42 @@ public class Student extends Thread {
 	public void run() {
 		
 		walkABit();
-		bar.enter();
-		table.seatAtTable();
-		table.readTheMenu();
+		barStub.enter();
+		tableStub.seatAtTable();
+		tableStub.readTheMenu();
 		
-		if (table.getFirstStudent() == studentId) {
-			table.prepareOrder();							
+		if (tableStub.getFirstStudent() == studentId) {
+			tableStub.prepareOrder();							
 			
-			while(!table.hasEverybodyChosen()) {
-				table.addUpOnesChoice();
+			while(!tableStub.hasEverybodyChosen()) {
+				tableStub.addUpOnesChoices();
 			}
 			
-			bar.callWaiter();
-			table.describeOrder();
-			table.joinTalk();
+			barStub.callWaiter();
+			tableStub.describeOrder();
+			tableStub.joinTalk();
 		} else {
-			table.informCompanion();
+			tableStub.informCompanion();
 		}
 		
-		while(!table.everyoneHasEaten()) {
+		while(!tableStub.everyoneHasEaten()) {
 			
-			table.startEating();
-			table.endEating();
+			tableStub.startEating();
+			tableStub.endEating();
 			
-			while(!table.hasEveryoneFinishedPortion());
+			while(!tableStub.hasEveryoneFinishedPortion());
 			
-			if(table.lastToEat() == studentId) {
-				bar.signalWaiter();
+			if(tableStub.getLastToEat() == studentId) {
+				barStub.signalWaiter();
 			}
 		}
 		
-		if(table.shouldHaveArrivedEarlier()) {
-			bar.signalWaiter();
-			table.honorTheBill();
+		if(tableStub.shouldHaveArrivedEarlier()) {
+			barStub.signalWaiter();
+			tableStub.honourTheBill();
 		}
 		
-		bar.exit();
+		barStub.exit();
 	}
 	
 }

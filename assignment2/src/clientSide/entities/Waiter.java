@@ -6,15 +6,15 @@ public class Waiter extends Thread {
 	
 	private int waiterState;
 	
-	private Table table;
-	private Kitchen kitchen;
-	private Bar bar;
+	private TableStub tableStub;
+	private KitchenStub kitchenStub;
+	private BarStub barStub;
 	
-	public Waiter(String name, Table table, Kitchen kitchen, Bar bar) {
+	public Waiter(String name, TableStub table, KitchenStub kitchen, BarStub bar) {
 		super(name);
-		this.table = table;
-		this.kitchen = kitchen;
-		this.bar = bar;
+		this.tableStub = table;
+		this.kitchenStub = kitchen;
+		this.barStub = bar;
 		this.waiterState = WaiterStates.APPRAISING_SITUATION;
 	}
 	
@@ -29,43 +29,43 @@ public class Waiter extends Thread {
 		char status;
 
 		do {
-			status = bar.lookAround();
+			status = barStub.lookAround();
 			
 			switch(status) {
 				
 				//enter the bar
 				case 'c':
-					table.saluteTheClient(bar.getStudentBeingAnswered());
-					table.returnToBar();
+					tableStub.saluteTheClient(barStub.getStudentBeingAnswered());
+					tableStub.returnToBar();
 					break;
 					
 				//call the waiter
 				case 'w':
-					table.getThePad();
-					kitchen.handNoteToChef();
-					kitchen.returnToBar();
+					tableStub.getThePad();
+					kitchenStub.handNoteToChef();
+					kitchenStub.returnToBar();
 					break;
 					
 				//alert the waiter
 				case 'a':
-					while(!table.haveAllClientsBeenServed()) {	
+					while(!tableStub.haveAllClientsBeenServed()) {	
 						
-						kitchen.collectPortion();
-						table.deliverPortion();
+						kitchenStub.collectPortion();
+						tableStub.deliverPortion();
 					}
-					table.returnToBar();
+					tableStub.returnToBar();
 					break;
 					
 				//should have arrived earlier
 				case 'e':
-					bar.prepareTheBill();
-					table.presentTheBill();
-					table.returnToBar();
+					barStub.preprareTheBill();
+					tableStub.presentTheBill();
+					tableStub.returnToBar();
 					break;
 				
 				// goodbyes
 				case 'g':
-					goodbye = bar.sayGoodbye();				//tbd
+					goodbye = barStub.sayGoodbye();	
 					break;
 			}
 			

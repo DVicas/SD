@@ -1,19 +1,27 @@
 package clientSide.entities;
 
-import sharedRegions.*;
+import clientSide.stubs.*;
+
+/**
+ *    Chef thread.
+ *
+ *      It simulates the chef life cycle.
+ *      Implementation of a client-server model of type 2 (server replication).
+ *      Communication is based on a communication channel under the TCP protocol.
+ */
 
 public class Chef extends Thread {
 	
 	private int chefState;
 	
-	private Kitchen kitchen;
-	private Bar bar;
+	private final BarStub barStub;
+	private final KitchenStub kitchenStub;
+
 	
-	
-	public Chef(String name, Kitchen kitchen, Bar bar) {
+	public Chef(String name, KitchenStub kitchen, BarStub bar) {
 		super(name);
-		this.kitchen = kitchen;
-		this.bar = bar;
+		this.kitchenStub = kitchen;
+		this.barStub = bar;
 		chefState = ChefStates.WAITING_FOR_AN_ORDER;
 	}
 	
@@ -24,30 +32,30 @@ public class Chef extends Thread {
  	@Override
 	public void run() {
 		
-		kitchen.watchTheNews();
+		kitchenStub.watchTheNews();
 		
-		kitchen.startPreparation();
+		kitchenStub.startPreparation();
 		
 		boolean firstCourse = true;
 		do {
 			if(!firstCourse) {
-				kitchen.continuePreparation();
+				kitchenStub.continuePreparation();
 			} else {
 				firstCourse = false;
 			}
 			
-			kitchen.proceedToPresentation();
+			kitchenStub.proceedToPresentation();
 
-			bar.alertTheWaiter();
+			barStub.alertTheWaiter();
 			System.out.println("portion ready");
 			
-			while(!kitchen.haveAllPortionsBeenDelivered()) {
-				kitchen.haveNextPortionReady();
+			while(!kitchenStub.haveAllPortionsBeenDelivered()) {
+				kitchenStub.haveNextPortionReady();
 			}
 
 			
-		} while(!kitchen.hasTheOrderBeenCompleted());
+		} while(!kitchenStub.hasTheOrderBeenCompleted());
 		
-		kitchen.cleanUp();
+		kitchenStub.cleanUp();
 	}
 }
