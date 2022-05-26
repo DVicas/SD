@@ -1,8 +1,6 @@
 package clientSide.entities;
 
-import sharedRegions.Bar;
-
-import sharedRegions.Table;
+import clientSide.stubs.*;
 
 public class Student extends Thread {
 	

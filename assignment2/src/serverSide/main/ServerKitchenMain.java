@@ -6,7 +6,7 @@ import commInfra.*;
 import serverSide.sharedRegions.*;
 
 
-public class KitchenMain {
+public class ServerKitchenMain {
 	
 	/**
 	 *  Flag signaling the service is active.
