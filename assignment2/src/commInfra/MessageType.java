@@ -22,6 +22,8 @@ public class MessageType
 
 	public static final int NFICDONE = 2;
 
+  
+
 	/**
 	 *  Alert waiter (service request).
 	 */

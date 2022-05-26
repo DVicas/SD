@@ -107,7 +107,7 @@ public class BarInterface {
         // processing 
 
         switch (inMessage.getMsgType ())
-
+        
         {   case MessageType.REQENT:  ((BarClientProxy) Thread.currentThread ()).setStudentId (inMessage.getStudentId ());
                                    ((BarClientProxy) Thread.currentThread ()).setStudentState (inMessage.getStudentState ());
                                    if (bar.enter ())
