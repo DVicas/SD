@@ -1,5 +1,7 @@
 package commInfra;
 
+import javax.print.DocFlavor;
+
 /**
  *   Type of the exchanged messages.
  *the
@@ -22,104 +24,541 @@ public class MessageType
    public static final int NFICDONE = 2;
 
   /**
-   *  Request hair cut (service request).
+   *  Alert waiter (service request).
    */
 
-   public static final int REQCUTH = 3;
+   public static final int REQAL = 3;
 
   /**
-   *  Hair was cut (reply).
+   *  Waiter was alerted (reply).
    */
 
-   public static final int CUTHDONE = 4;
+   public static final int ALDONE = 4;
 
   /**
-   *  Barber shop is full (reply).
+   *  enter(request).
    */
 
-   public static final int BSHOPF = 5;
+   public static final int REQENT = 5;
 
   /**
-   *  Barber goes to sleep (service request).
+   *  enter done (reply).
    */
 
-   public static final int SLEEP = 6;
+   public static final int ENTDONE = 6;
 
   /**
-   *  Barber is asleep (reply).
+   *  Call waiter (request).
    */
 
-   public static final int SLEEPDONE = 7;
+   public static final int REQCW = 7;
 
   /**
-   *  Call a customer (service request).
+   *  Call waiter done (reply).
    */
 
-   public static final int CALLCUST = 8;
+   public static final int CWDONE = 8;
 
   /**
-   *  Customer was called (reply).
+   *  Signal waiter (request).
    */
 
-   public static final int CCUSTDONE = 9;
+   public static final int REQSW = 9;
 
   /**
-   *  Barber receives payment (service request).
+   *  Signal waiter done (reply).
    */
 
-   public static final int RECPAY = 10;
+   public static final int SWDONE = 10;
 
   /**
-   *  Payment was received (reply).
+   *  EXIT REQUEST (REQUEST).
    */
 
-   public static final int RPAYDONE = 11;
+   public static final int REQEXIT = 11;
 
   /**
-   *  End of work - barber (service request).
+   *  EXIT DONE (REPLY)
    */
 
-   public static final int ENDOP = 12;
-
-  /**
-   *  Barber goes home (reply).
+   public static final int EXITDONE = 12;
+   
+   /**
+   *  LOOK AROUND  (REQUEST)
    */
 
-   public static final int EOPDONE = 13;
+   public static final int REQLA = 13;
+   
+   /**
+   *  LOOK AROUND (REPLY)
+   */
 
+   public static final int LADONE = 14;
+   
+   /**
+   *  SAY GOODBYE (REQUEST)
+   */
+
+   public static final int REQSG = 15;
+   
+   /**
+   *  SAY GOODBYE (REPLY)
+   */
+
+   public static final int SGDONE = 16;
+   
+   /**
+   *  PREPARE BILL (REQUEST)
+   */
+
+   public static final int REQPB = 17;
+   
+   /**
+   *  PREPARE BILL (REPLY)
+   */
+
+   public static final int PBDONE = 18;
+   
+   /**
+   *  WHAT THE NEWS (REQUEST)
+   */
+
+   public static final int REQWTN = 19;
+   
+   /**
+   *  WHAT THE NEWS (REPLY)
+   */
+
+   public static final int WTNDONE = 20;
+
+   /**
+   *  START PREPARATION (REQUEST)
+   */
+
+   public static final int REQSTP = 21;
+   
+   /**
+   *  START PREPARATION (REPLY)
+   */
+
+   public static final int STPDONE = 22;
+   
+   /**
+   *  PROCEED PREPARATION (REQUEST)
+   */
+
+   public static final int REQPTP = 23;
+   
+   /**
+   *  PROCEED PREPARATION (REPLY)
+   */
+
+   public static final int PTPDONE = 24;
+   
+   /**
+   *  haveNextPortionReady (REQUEST)
+   */
+
+   public static final int REQHNPR = 25;
+   
+   /**
+   *  haveNextPortionReady (REPLY)
+   */
+
+   public static final int HNPRDONE = 26;
+   
+   /**
+   *  continuePreparation (REQUEST)
+   */
+
+   public static final int REQCP = 27;
+   
+   /**
+   *  continuePreparation (REPLY)
+   */
+
+   public static final int CPDONE = 28;
+   
+   /**
+   *  haveAllPortionsBeenDelivered (REQUEST)
+   */
+
+   public static final int REQHAPBD = 29;
+   
+   /**
+   *  haveAllPortionsBeenDelivered (REPLY)
+   */
+
+   public static final int HAPBDDONE = 30;
+   
+   /**
+   *  hasOrderBeenCompleted (REQUEST)
+   */
+
+   public static final int REQHOBC = 31;
+   
+   /**
+   *  hasOrderBeenCompleted (REPLY)
+   */
+
+   public static final int HOBCDONE = 32;
+   
+   /**
+   *  cleanUp (REQUEST)
+   */
+
+   public static final int REQCU = 33;
+   
+   /**
+   *  cleanUp (REPLY)
+   */
+
+   public static final int CUDONE = 34;
+   
+   /**
+   *  returnToBar (REQUEST)
+   */
+
+   public static final int REQRTB = 35;
+   
+   /**
+   *  returnToBar (REPLY)
+   */
+
+   public static final int RTBDONE = 36;   
+   /**
+   *  handNoteToChef (REQUEST)
+   */
+
+   public static final int REQHNTC = 37;
+   
+   /**
+   *  handNoteToChef (REPLY)
+   */
+
+   public static final int HNTCDONE = 38;
+   
+   /**
+   *  collectPortion (REQUEST)
+   */
+
+   public static final int REQCPOR = 39;
+   
+   /**
+   *  collectPortion (REPLY)
+   */
+
+   public static final int CPORDONE = 40;
+   
+   /**
+   *  saluteClient (REQUEST)
+   */
+
+   public static final int REQSC = 41;
+   
+   /**
+   *  saluteClient (REPLY)
+   */
+
+   public static final int SCDONE = 42;
+   
+   /**
+   *  returnBar (REQUEST)
+   */
+
+   public static final int REQRB = 43;
+   
+   /**
+   *  returnBar (REPLY)
+   */
+
+   public static final int RBDONE = 44;
+   
+   /**
+   *  getThePad (REQUEST)
+   */
+
+   public static final int REQGB = 45;
+   
+   /**
+   *  getThePad (REPLY)
+   */
+
+   public static final int GBDONE = 46;
+   
+   /**
+   *  haveAllClientsBeenServed (REQUEST)
+   */
+
+   public static final int REQHACBS = 47;
+   
+   /**
+   *  haveAllClientsBeenServed (REPLY)
+   */
+
+   public static final int HACBSDONE = 48;
+   
+   /**
+   *  deliverPortion (REQUEST)
+   */
+
+   public static final int REQDP = 49;
+   
+   /**
+   *  deliverPortion (REPLY)
+   */
+
+   public static final int DPDONE = 50;
+   
+   /**
+   *  presentBill (REQUEST)
+   */
+
+   public static final int REQPREB = 51;
+   
+   /**
+   *  presentBill (REPLY)
+   */
+
+   public static final int PREBDONE = 52;
+   
+   /**
+   *  getFirstToArrive (REQUEST)
+   */
+
+   public static final int REQGFTA = 53;
+   
+   /**
+   *  getFirstToArrive (REPLY)
+   */
+
+   public static final int GFTADONE = 54;
+   
+   /**
+   *  getLastToEat (REQUEST)
+   */
+
+   public static final int REQGLTE = 55;
+   
+   /**
+   *  getLastToEat (REPLY)
+   */
+
+   public static final int GLTEDONE = 56;
+   
+   /**
+   *  seatAtTable (REQUEST)
+   */
+
+   public static final int REQSAT = 57;
+   
+   /**
+   *  seatAtTable (REPLY)
+   */
+
+   public static final int SATDONE = 58;
+   
+   /**
+   *  readMenu (REQUEST)
+   */
+
+   public static final int REQRM = 59;
+   
+   /**
+   *  readMenu (REPLY)
+   */
+
+   public static final int RMDONE = 60;
+   
+   /**
+   *  prepareOrder (REQUEST)
+   */
+
+   public static final int REQPO = 61;
+   
+   /**
+   *  prepareOrder (REPLY)
+   */
+
+   public static final int PODONE = 62;
+   
+   /**
+   *  everybodyHasChosen (REQUEST)
+   */
+
+   public static final int REQEHC = 63;
+   
+   /**
+   *  everybodyHasChosen (REPLY)
+   */
+
+   public static final int EHCDONE = 64;
+   
+   /**
+   *  addUpOnesChoices (REQUEST)
+   */
+
+   public static final int REQAUOC = 65;
+   
+   /**
+   *  addUpOnesChoices (REPLY)
+   */
+
+   public static final int AUOCDONE = 66;
+   
+   /**
+   *  describeOrder (REQUEST)
+   */
+
+   public static final int REQDO = 67;
+   
+   /**
+   *  describeOrder (REPLY)
+   */
+
+   public static final int DODONE = 68;
+
+   /**
+   *  joinTalk (REQUEST)
+   */
+
+   public static final int REQJT = 69;
+   
+   /**
+   *  joinTalk (REPLY)
+   */
+
+   public static final int JTDONE = 70;
+
+   /**
+   *  informCompanion (REQUEST)
+   */
+
+   public static final int REQIC = 71;
+   
+   /**
+   *  informCompanion (REPLY)
+   */
+
+   public static final int ICDONE = 72;
+
+   /**
+   *  startEating (REQUEST)
+   */
+
+   public static final int REQSE = 73;
+   
+   /**
+   *  startEating (REPLY)
+   */
+
+   public static final int SEDONE = 74;
+   
+   /**
+   *  endEating (REQUEST)
+   */
+
+   public static final int REQEE = 75;
+   
+   /**
+   *  endEating (REPLY)
+   */
+
+   public static final int EEDONE = 76;
+   
+   /**
+   *  hasEverybodyFinishedEating (REQUEST)
+   */
+
+   public static final int REQHEFE = 77;
+   
+   /**
+   *  hasEverybodyFinishedEating (REPLY)
+   */
+
+   public static final int HEFEDONE = 78;
+   
+   /**
+   *  honourBill (REQUEST)
+   */
+
+   public static final int REQHB = 79;
+   
+   /**
+   *  honourBill (REPLY)
+   */
+
+   public static final int HBDONE = 80;
+   
+   /**
+   *  haveAllCoursesBeenEaten (REQUEST)
+   */
+
+   public static final int REQHACBE = 81;
+   
+   /**
+   *  haveAllCoursesBeenEaten (REPLY)
+   */
+
+   public static final int HACBEDONE = 82;
+   
+   /**
+   *  shouldHaveArrivedEarlier (REQUEST)
+   */
+
+   public static final int REQSHAE = 83;
+   
+   /**
+   *  shouldHaveArrivedEarlier (REPLY)
+   */
+
+   public static final int SHAEDONE = 84;
+   
+   /**
+   *  getStudentBeingAnswered (REQUEST)
+   */
+
+   public static final int REQGSBA = 85;
+   
+   /**
+   *  getStudentBeingAnswered (REPLY)
+   */
+
+   public static final int GSBADONE = 86;
+  
   /**
    *  Server shutdown (service request).
    */
 
-   public static final int SHUT = 14;
+   public static final int SHUT = 87;
 
   /**
    *  Server was shutdown (reply).
    */
 
-   public static final int SHUTDONE = 15;
+   public static final int SHUTDONE = 88;
 
   /**
-   *  Set barber state (service request).
+   *  setStudentState (REQUEST).
    */
 
-   public static final int STBST = 16;
+   public static final int STSST = 89;
 
   /**
-   *  Set customer state (service request).
+   *  setWaiterState (REQUEST).
    */
 
-   public static final int STCST = 17;
+   public static final int STWST = 90;
 
   /**
-   *  Set barber and customer states (service request).
+   *  setChefState (REQUEST).
    */
 
-   public static final int STBCST = 18;
+   public static final int STCST = 91;
 
   /**
    *  Setting acknowledged (reply).
    */
 
-   public static final int SACK = 19;
+   public static final int SACK = 92;
 }

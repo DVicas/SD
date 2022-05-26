@@ -125,6 +125,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread())-getStudentId(),
                                                                     ((BarClientProxy)Thread.currentThread()).setStudentState());
                                     //nao sei se falta alguma coisa
+                                    break;
 
             case MessageType.REQEXIT: ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentId ());
                                     ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentState ());
@@ -134,6 +135,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread()).setStudentState());         
 
                                     //nao sei se falta alguma coisa
+                                    break;
 
             case MessageType.REQLA: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
                                     if(bar.lookAround ())
@@ -141,6 +143,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread()).setWaiterState());         
 
                                     //nao sei se falta alguma coisa
+                                    break;
 
             case MessageType.REQSG: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
                                     if(bar.sayGoodbye ())
@@ -148,6 +151,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread()).setWaiterState());         
 
                                     //nao sei se falta alguma coisa
+                                    break;
         
             case MessageType.REQPB: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
                                     if(bar.prepareTheBill ())
@@ -155,6 +159,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread()).setWaiterState());         
 
                                     //nao sei se falta alguma coisa
+                                    break;
             
             case MessageType.REQAL: ((BarClientProxy) Thread.currentThread()).setChefState (inMessage.getChefState ());
                                     if(bar.alertTheWaiter ())
@@ -162,6 +167,7 @@ public class BarInterface {
                                                                     ((BarClientProxy)Thread.currentThread()).setChefState());         
 
                                     //nao sei se falta alguma coisa
+                                    break;
 
             case MessageType.SHUT:     bar.shutdown ();
                                    outMessage = new Message (MessageType.SHUTDONE);
