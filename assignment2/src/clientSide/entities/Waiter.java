@@ -1,6 +1,6 @@
 package clientSide.entities;
 
-import sharedRegions.*;
+import clientSide.stubs.*;
 
 public class Waiter extends Thread {
 	
