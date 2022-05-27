@@ -116,39 +116,39 @@ public class TableInterface {
                                    break;
 
          case MessageType.REQRB:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.returnToBar ())
+                                   if (table.returnToBar())
                                       outMessage = new Message (MessageType.RBDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;
 
          case MessageType.REQGB:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.getThePad ())
+                                   if (table.getThePad())
                                       outMessage = new Message (MessageType.GBDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;
 
          case MessageType.REQHACBS:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.haveAllClientsBeenServed ())
+                                   if (table.haveAllClientsBeenServed())
                                       outMessage = new Message (MessageType.HACBSDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;
 
          case MessageType.REQDP:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.returnToBar ())
+                                   if (table.returnToBar())
                                       outMessage = new Message (MessageType.DPDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;    
 
          case MessageType.REQPB:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.presentTheBill ())
+                                   if (table.presentTheBill())
                                       outMessage = new Message (MessageType.PBDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;
 
          case MessageType.REQGFTA:  ((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
                                     ((TableClientProxy) Thread.currentThread ()).setStudentState (inMessage.getStudentState ());
-                                   if (table.getFirstStudent ())
-                                       outMessage = new Message (MessageType.GTFADONE,
+                                   if (table.getFirstStudent())
+                                       outMessage = new Message (MessageType.GFTADONE,
                                                                   ((TableClientProxy)Thread.currentThread()).getStudentId(),
                                                                   ((TableClientProxy)Thread.currentThread()).getStudentState());         
 
@@ -156,7 +156,7 @@ public class TableInterface {
          
          case MessageType.REQGLTE:  ((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
                                     ((TableClientProxy) Thread.currentThread ()).setStudentState (inMessage.getStudentState ());
-                                   if (table.getLastStudent ())
+                                   if (table.getLastStudent())
                                       outMessage = new Message (MessageType.GLTEDONE,
                                                                   ((TableClientProxy)Thread.currentThread()).getStudentId(),
                                                                   ((TableClientProxy)Thread.currentThread()).getStudentState());   

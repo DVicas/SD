@@ -41,6 +41,8 @@ public class Message implements Serializable {
 	 * Student state
 	 */
 	private int studentState = -1;
+	
+	private int nIter = -1;
 
 	private int var1 = -1;
 
@@ -151,6 +153,10 @@ public class Message implements Serializable {
 
 	public int getVar2() {
 		return var2;
+	}
+	
+	public int getNIter() {
+		return nIter;
 	}
 
 	@Override
