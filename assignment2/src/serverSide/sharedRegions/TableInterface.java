@@ -128,7 +128,7 @@ public class TableInterface {
                                    break;
 
          case MessageType.REQHACBS:  ((TableClientProxy) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState ());
-                                   if (table.haveAllClientsBeenServed())
+                                   if (table.haveAllClientsBeenServed ())
                                       outMessage = new Message (MessageType.HACBSDONE,
                                                                 ((TableClientProxy) Thread.currentThread ()).getWaiterState ());
                                    break;
