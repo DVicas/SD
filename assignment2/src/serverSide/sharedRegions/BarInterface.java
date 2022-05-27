@@ -100,7 +100,7 @@ public class BarInterface {
         //         break;
         //     default:
         //         throw new MessageException("Invalid message type!", inMessage);
-        }
+//        }
 
        // check nothing
 

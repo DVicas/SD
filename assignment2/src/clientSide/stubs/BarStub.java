@@ -219,7 +219,7 @@ public class BarStub {
 	    ((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 	    com.close();
             
-            return (inMessage.getMsgType() == MessageType.LADONE);
+        return inMessage.getRequest();
 	}
 	
 	public boolean sayGoodbye() {
@@ -302,7 +302,7 @@ public class BarStub {
 	    }
 	    
 	    //MESSAGES
-	    outMessage = new Message(MessageType.ALREQ, ((Chef) Thread.currentThread()).getChefState());
+	    outMessage = new Message(MessageType.REQAL, ((Chef) Thread.currentThread()).getChefState());
 	    
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();

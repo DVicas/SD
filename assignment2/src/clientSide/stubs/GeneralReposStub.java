@@ -29,7 +29,7 @@ public class GeneralReposStub
    *  Port number for listening to service requests.
    */
 
-   private int serverPortNumb;
+   private int serverPortNum;
 
   /**
    *   Instantiation of a stub to the general repository.
@@ -41,7 +41,7 @@ public class GeneralReposStub
    public GeneralReposStub (String serverHostName, int serverPortNumb)
    {
       this.serverHostName = serverHostName;
-      this.serverPortNumb = serverPortNumb;
+      this.serverPortNum = serverPortNumb;
    }
 
 	public void initSimulation(String fileName, int nIter) {
@@ -79,7 +79,7 @@ public class GeneralReposStub
       Message outMessage,                                            // outgoing message
               inMessage;                                             // incoming message
 
-      com = new ClientCom (serverHostName, serverPortNumb);
+      com = new ClientCom (serverHostName, serverPortNum);
       while (!com.open ())
       { try
         { Thread.sleep ((long) (1000));
@@ -109,7 +109,7 @@ public class GeneralReposStub
       Message outMessage,                                            // outgoing message
               inMessage;                                             // incoming message
 
-      com = new ClientCom (serverHostName, serverPortNumb);
+      com = new ClientCom (serverHostName, serverPortNum);
       while (!com.open ())
       { try
         { Thread.sleep ((long) (1000));
@@ -139,7 +139,7 @@ public class GeneralReposStub
       Message outMessage,                                            // outgoing message
               inMessage;                                             // incoming message
 
-      com = new ClientCom (serverHostName, serverPortNumb);
+      com = new ClientCom (serverHostName, serverPortNum);
       while (!com.open ())
       { try
         { Thread.sleep ((long) (1000));

@@ -15,7 +15,7 @@ import genclass.GenericIO;
 public class BarClientProxy extends Thread implements StudentCloning, WaiterCloning, ChefCloning  {
     
     /**
-   *  Number of instantiayed threads.
+   *  Number of instantiated threads.
    */
 
    private static int nProxy = 0;
@@ -209,4 +209,28 @@ public class BarClientProxy extends Thread implements StudentCloning, WaiterClon
     {
        return chefState;
     }
+
+	@Override
+	public void setChefId(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChefId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setWaiterId(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWaiterId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -208,5 +208,29 @@ public class KitchenClientProxy extends Thread implements StudentCloning, Waiter
 	public int getChefState ()
 	{
 		return chefState;
+	}
+
+	@Override
+	public void setChefId(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChefId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setWaiterId(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWaiterId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}    
 }

@@ -2,142 +2,162 @@ package commInfra;
 
 import java.io.Serializable;
 
+/**
+ * Internal structure of the exchanged messages.
+ *
+ * Implementation of a client-server model of type 2 (server replication).
+ * Communication is based on a communication channel under the TCP protocol.
+ */
+
 public class Message implements Serializable {
 
-    private static final long serialVersionUID = 2022L;
+	/**
+	 * Serialization key.
+	 */
+	private static final long serialVersionUID = 2022L;
+	
+	/**
+	 * Message type
+	 */
+	
+	private int msgType = -1;
+	
+	/**
+	 * Chef state
+	 */
+	private int chefState = -1;
+	
+	/**
+	 * Waiter state
+	 */
+	private int waiterState = -1;
 
-    private int msgType = -1;
+	/**
+	 * Student identification
+	 */
+	private int studentId = -1;
 
-    private int chefState = -1;
+	/**
+	 * Student state
+	 */
+	private int studentState = -1;
 
-    private int waiterState = -1;
+	private int var1 = -1;
 
-    private int studentID = -1;
+	private int var2 = -1;
 
-    private int studentState = -1;
+	private Boolean check = null;
 
-    private int var1 = -1;
+	private Request request = null;
 
-    private int var2 = -1;
+	public Message(int type) {
+		this.msgType = type;
+	}
 
-    private Boolean check = null;
+	public Message(int type, int state) {
+		this.msgType = type;
+		if (type >= 40 && type <= 59)
+			this.waiterState = state;
+		else if (type >= 60 && type <= 75)
+			this.chefState = state;
+		else if (type > 86) {
+			this.waiterState = state;
+			this.chefState = state;
+		}
+	}
 
-    private ServiceRequest request = null;
+	public Message(int type, Boolean check, int state) {
+		this.msgType = type;
+		this.check = check;
+		if (type >= 40 && type <= 59)
+			this.waiterState = state;
+		else if (type >= 60 && type <= 75)
+			this.chefState = state;
+		else if (type > 86) {
+			this.waiterState = state;
+			this.chefState = state;
+		}
 
-    public Message(int type) {
-        this.msgType = type;
-    }
+	}
 
-    public Message(int type, int state) {
-        this.msgType = type;
-        if (type >= 40 && type <= 59)
-            this.waiterState = state;
-        else if (type >= 60 && type <= 75)
-            this.chefState = state;
-        else if (type > 86) {
-            this.waiterState = state;
-            this.chefState = state;
-        }
-    }
+	public Message(int type, Request request, int state) {
+		this.msgType = type;
+		this.request = request;
+		if (type >= 40 && type <= 59)
+			this.waiterState = state;
+	}
 
-    public Message(int type, Boolean check, int state) {
-        this.msgType = type;
-        this.check = check;
-        if (type >= 40 && type <= 59)
-            this.waiterState = state;
-        else if (type >= 60 && type <= 75)
-            this.chefState = state;
-        else if (type > 86) {
-            this.waiterState = state;
-            this.chefState = state;
-        }
+	public Message(int type, int studentId, int state) {
+		this.msgType = type;
+		this.studentId = studentId;
+		if (type >= 0 && type <= 39)
+			this.studentState = state;
+		else if (type >= 40 && type <= 59)
+			this.waiterState = state;
+	}
 
-    }
+	public Message(int type, Boolean check, int studentId, int state) {
+		this.msgType = type;
+		this.studentId = studentId;
+		if (type >= 0 && type <= 39)
+			this.studentState = state;
+		else if (type >= 40 && type <= 59)
+			this.waiterState = state;
+		this.check = check;
+	}
 
-    public Message(int type, ServiceRequest request, int state) {
-        this.msgType = type;
-        this.request = request;
-        if (type >= 40 && type <= 59)
-            this.waiterState = state;
-    }
+	public Message(int type, int var1, String fileName) {
+		this.msgType = type;
+		this.var1 = var1;
+	}
 
-    public Message(int type, int studentID, int state) {
-        this.msgType = type;
-        this.studentID = studentID;
-        if (type >= 0 && type <= 39)
-            this.studentState = state;
-        else if (type >= 40 && type <= 59)
-            this.waiterState = state;
-    }
+	public Message(int type, int var1, int var2, String fileName) {
+		this.msgType = type;
+		this.var1 = var1;
+		this.var2 = var2;
+	}
 
-    public Message(int type, Boolean check, int studentID, int state) {
-        this.msgType = type;
-        this.studentID = studentID;
-        if (type >= 0 && type <= 39)
-            this.studentState = state;
-        else if (type >= 40 && type <= 59)
-            this.waiterState = state;
-        this.check = check;
-    }
+	public int getMsgType() {
+		return msgType;
+	}
 
-    public Message(int type, int var1, String fileName) {
-        this.msgType = type;
-        this.var1 = var1;
-    }
+	public Boolean getCheck() {
+		return check;
+	}
 
-    public Message(int type, int var1, int var2, String fileName) {
-        this.msgType = type;
-        this.var1 = var1;
-        this.var2 = var2;
-    }
+	public Request getRequest() {
+		return request;
+	}
 
-    public int getMsgType() {
-        return msgType;
-    }
+	public int getStudentId() {
+		return studentId;
+	}
 
-    public Boolean getCheck() {
-        return check;
-    }
+	public int getStudentState() {
+		return studentState;
+	}
 
-    public ServiceRequest getRequest() {
-        return request;
-    }
+	public int getWaiterState() {
+		return waiterState;
+	}
 
-    public int getStudentID() {
-        return studentID;
-    }
+	public int getChefState() {
+		return chefState;
+	}
 
-    public int getStudentState() {
-        return studentState;
-    }
+	public int getVar1() {
+		return var1;
+	}
 
-    public int getWaiterState() {
-        return waiterState;
-    }
+	public int getVar2() {
+		return var2;
+	}
 
-    public int getChefState() {
-        return chefState;
-    }
-
-    public int getVar1() {
-        return var1;
-    }
-
-    public int getVar2() {
-        return var2;
-    }
-
-    @Override
-    public String toString() {
-        return ("Message type: " + msgType
-                + "\nCheck: " + check
-                + "\nRequest: " + request
-                + "\nStudent ID: " + studentID
-                + "\nStudent State: " + studentState
-                + "\nWaiter State: " + waiterState
-                + "\nChef State: " + chefState
-                + "\nVar 1: " + var1
-                + "\nVar 2: " + var2);
-    }
+	@Override
+	public String toString() {
+		return ("Message type: " + msgType + "\nCheck: " + check + "\nRequest: " + request + "\nStudent ID: "
+				+ studentId + "\nStudent State: " + studentState + "\nWaiter State: " + waiterState + "\nChef State: "
+				+ chefState + "\nVar 1: " + var1 + "\nVar 2: " + var2);
+	}
 
 }

@@ -5,6 +5,7 @@
 package serverSide.sharedRegions;
 
 import clientSide.entities.*;
+import commInfra.*;
 import genclass.GenericIO;
 import genclass.TextFile;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public class GeneralRepos {
   /**
    *  seat where each student is.
    */
-   private final int [] seatAtTable = new int[serverSide.main.ExecConst.Nstudents];
+   private final int [] seatAtTable = new int[SimulPar.N];
    
   /**
    *   Instantiation of a general repository object.
@@ -71,16 +72,16 @@ public class GeneralRepos {
 
 
         // inicializar students
-        studentState = new int[serverSide.main.ExecConst.Nstudents];
-        for (int i = 0; i < serverSide.main.ExecConst.Nstudents; i++)
-          studentState[i] = StudentState.GOING_TO_THE_RESTAURANT;
+        studentState = new int[SimulPar.N];
+        for (int i = 0; i < SimulPar.N; i++)
+          studentState[i] = StudentStates.GOING_TO_THE_RESTAURANT;
 
         // iniciar chef
-        chefState = ChefState.WAITING_FOR_AN_ORDER;
+        chefState = ChefStates.WAITING_FOR_AN_ORDER;
         // iniciar waiter
-        waiterState = WaiterState.APPRAISING_SITUATION;
+        waiterState = WaiterStates.APPRAISING_SITUATION;
         // iniciar todos os seats a -1 para indicar que nao tem ninguem sentado
-        for(int i = 0; i<serverSide.main.ExecConst.Nstudents;i++)
+        for(int i = 0; i < SimulPar.N;i++)
         {
             seatAtTable[i] = -1;
         }
@@ -124,56 +125,56 @@ public class GeneralRepos {
              System.exit (1);
            }
         switch (chefState){ 
-            case ChefState.WAITING_FOR_AN_ORDER:  lineStatus += "\tWAFOR";
+            case ChefStates.WAITING_FOR_AN_ORDER:  lineStatus += "\tWAFOR";
                                                break;
-            case ChefState.PREPARING_THE_COURSE: lineStatus += "\tPRPCS";
+            case ChefStates.PREPARING_THE_COURSE: lineStatus += "\tPRPCS";
                                                break;
-            case ChefState.DISHING_THE_PORTIONS:      lineStatus += "\tDSHPT";
+            case ChefStates.DISHING_THE_PORTIONS:      lineStatus += "\tDSHPT";
                                                break;
-            case ChefState.DELIVERING_THE_PORTIONS:    lineStatus += "\tDLVPT";
+            case ChefStates.DELIVERING_THE_PORTIONS:    lineStatus += "\tDLVPT";
                                                break;
-            case ChefState.CLOSING_SERVICE:    lineStatus += "\tCLSSV";
+            case ChefStates.CLOSING_SERVICE:    lineStatus += "\tCLSSV";
                                                break;
           }
         switch (waiterState){ 
-            case WaiterState.APPRAISING_SITUATION:  lineStatus += "\tAPPST";
+            case WaiterStates.APPRAISING_SITUATION:  lineStatus += "\tAPPST";
                                                break;
-            case WaiterState.PRESENTING_THE_MENU: lineStatus += "\tPRSMN";  
+            case WaiterStates.PRESENTING_THE_MENU: lineStatus += "\tPRSMN";  
                                                break;
-            case WaiterState.TAKING_THE_ORDER:      lineStatus += "\tTKODR";
+            case WaiterStates.TAKING_THE_ORDER:      lineStatus += "\tTKODR";
                                                break;
-            case WaiterState.PLACING_THE_ORDER:    lineStatus += "\tPCODR";
+            case WaiterStates.PLACING_THE_ORDER:    lineStatus += "\tPCODR";
                                                break;
-            case WaiterState.WAITING_FOR_PORTION:    lineStatus += "\tWTFPT";
+            case WaiterStates.WAITING_FOR_PORTION:    lineStatus += "\tWTFPT";
                                                break;
-            case WaiterState.PROCESSING_THE_BILL:    lineStatus += "\tPRCBL";
+            case WaiterStates.PROCESSING_THE_BILL:    lineStatus += "\tPRCBL";
                                                break;                                              
-            case WaiterState.RECEIVING_PAYMENT:    lineStatus += "\tRECPM";
+            case WaiterStates.RECEIVING_PAYMENT:    lineStatus += "\tRECPM";
                                                break;                                            
           }
-        for (int i = 0; i < serverSide.main.ExecConst.Nstudents; i++)
+        for (int i = 0; i < SimulPar.N; i++)
             switch (studentState[i]){ 
-                case StudentState.GOING_TO_THE_RESTAURANT:   lineStatus += "\tGGTRT";
+                case StudentStates.GOING_TO_THE_RESTAURANT:   lineStatus += "\tGGTRT";
                                             break;
-                case StudentState.TAKING_A_SEAT_AT_THE_TABLE: lineStatus += "\tTKSTT";
+                case StudentStates.TAKING_A_SEAT_AT_THE_TABLE: lineStatus += "\tTKSTT";
                                               break;    
-                case StudentState.SELECTING_THE_COURSES: lineStatus += "\tSELCS";
+                case StudentStates.SELECTING_THE_COURSES: lineStatus += "\tSELCS";
                                               break; 
-                case StudentState.ORGANIZING_THE_ORDER: lineStatus += "\tOGODR";
+                case StudentStates.ORGANIZING_THE_ORDER: lineStatus += "\tOGODR";
                                               break; 
-                case StudentState.CHATTING_WITH_COMPANIONS: lineStatus += "\tCHTWC";
+                case StudentStates.CHATTING_WITH_COMPANIONS: lineStatus += "\tCHTWC";
                                               break; 
-                case StudentState.PAYING_THE_MEAL: lineStatus += "\tPYTML";
+                case StudentStates.PAYING_THE_MEAL: lineStatus += "\tPYTML";
                                               break; 
-                case StudentState.ENJOYING_THE_MEAL: lineStatus += "\tEJTML";
+                case StudentStates.ENJOYING_THE_MEAL: lineStatus += "\tEJTML";
                                               break; 
-                case StudentState.GOING_HOME: lineStatus += "\tGGHOM";
+                case StudentStates.GOING_HOME: lineStatus += "\tGGHOM";
                                               break; 
                 
             }
         lineStatus += "\t"+nCourses+"\t"+nPortions;
         
-        for(int i = 0;i< serverSide.main.ExecConst.Nstudents;i++)
+        for(int i = 0;i< SimulPar.N; i++)
         {
             lineStatus += "\t";
             if(seatAtTable[i] == -1){

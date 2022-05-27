@@ -1,7 +1,12 @@
 package serverSide.sharedRegions;
 
-import entities.*;
-import main.SimulPar;
+import serverSide.main.*;
+import serverSide.entities.*;
+import clientSide.entities.*;
+import clientSide.stubs.*;
+import commInfra.*;
+import genclass.GenericIO;
+
 
 public class Kitchen {
 
@@ -12,23 +17,23 @@ public class Kitchen {
 	private boolean handedNoteToChef;
 	private boolean receivedNote;
 	
-	private GeneralRepos repo;
+	private GeneralReposStub repo;
 	
 	
-	public Kitchen(GeneralRepos repo) {
+	public Kitchen(GeneralReposStub reposStub) {
 		this.nPortionsReady = 0;
 		this.nPortionsServed = 0;
 		this.nCoursesServed = 0;
 		this.handedNoteToChef = false;
 		this.receivedNote = false;
 		
-		this.repo = repo;
+		this.repo = reposStub;
 	}
 	
 	public synchronized void watchTheNews() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.WAITING_FOR_AN_ORDER);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
 		while(!handedNoteToChef) {
 			try
@@ -44,7 +49,7 @@ public class Kitchen {
 	public synchronized void startPreparation() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
 		handedNoteToChef = false;
 		
@@ -54,7 +59,7 @@ public class Kitchen {
 	public synchronized void proceedToPresentation() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
 		nPortionsReady++;		
 	}
@@ -62,7 +67,7 @@ public class Kitchen {
 	public synchronized void continuePreparation() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
 		
 
@@ -87,12 +92,12 @@ public class Kitchen {
 	public synchronized void haveNextPortionReady() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 
 		nPortionsReady++;
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
 		notifyAll();
 	}
@@ -108,7 +113,7 @@ public class Kitchen {
 
 	public synchronized void handNoteToChef() {
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_THE_ORDER);
-		repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
 		handedNoteToChef = true;
 		
@@ -125,12 +130,12 @@ public class Kitchen {
 
 	public synchronized void returnToBar() {
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.APPRAISING_SITUATION);
-		repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 	}
 
 	public synchronized void collectPortion() {
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.WAITING_FOR_PORTION);
-		repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
 		while (nPortionsReady == 0) {
 			try 
@@ -154,6 +159,6 @@ public class Kitchen {
 	public synchronized void cleanUp() {
 		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
-		repo.updateChefState(((Chef) Thread.currentThread()).getChefState());	
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());	
 	}
 }

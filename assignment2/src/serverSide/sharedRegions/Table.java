@@ -3,6 +3,8 @@ package serverSide.sharedRegions;
 import serverSide.entities.*;
 import serverSide.main.*;
 import serverSide.sharedRegions.*;
+import clientSide.entities.*;
+import clientSide.stubs.GeneralReposStub;
 import commInfra.SimulPar;
 import genclass.GenericIO;
 
@@ -42,9 +44,9 @@ public class Table {
 
 	private boolean billPresented;
 	
-	private GeneralRepos repo;
+	private GeneralReposStub repo;
 	
-	public Table(GeneralRepos repo) {
+	public Table(GeneralReposStub reposStub) {
 		
 		firstStudent = 0;
 		lastStudent = 0;
@@ -59,7 +61,7 @@ public class Table {
 		takingOrder = false;
 		informingCompanion = false;
 		
-		this.repo = repo;
+		this.repo = reposStub;
 		
 		seated = new boolean[SimulPar.N];
 		readMenu = new boolean[SimulPar.N];
@@ -87,7 +89,7 @@ public class Table {
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		students[id] = (Student) Thread.currentThread();
 		students[id].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		seated[id] = true;
 		
@@ -108,7 +110,7 @@ public class Table {
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		
 		students[id].setStudentState(StudentStates.SELECTING_THE_COURSES);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		//student has read the menu
 		readMenu[id] = true;
@@ -123,7 +125,7 @@ public class Table {
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		
 		students[firstStudent].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		//log his own order
 		nOrders++;
@@ -134,7 +136,7 @@ public class Table {
 		
 		int id = ((Student) Thread.currentThread()).getStudentId();
 		students[id].setStudentState(StudentStates.CHATTING_WITH_COMPANIONS);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 	}
 
 	
@@ -174,7 +176,7 @@ public class Table {
 		id = ((Student) Thread.currentThread()).getStudentId();
 			
 		students[id].setStudentState(StudentStates.CHATTING_WITH_COMPANIONS);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 	}
 	
@@ -225,7 +227,7 @@ public class Table {
 
 		
 		students[id].setStudentState(StudentStates.ENJOYING_THE_MEAL);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 		
 		try
 		{ Thread.sleep((long) (1 + 40 * Math.random()));
@@ -247,7 +249,7 @@ public class Table {
 		}
 		
 		students[id].setStudentState(StudentStates.CHATTING_WITH_COMPANIONS);
-		repo.updateStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 	}
 	
 	public boolean isLastCourse() {
@@ -298,7 +300,7 @@ public class Table {
 
     	if(studentId == lastStudent) {
 	    	students[studentId].setStudentState(StudentStates.PAYING_THE_MEAL);
-	    	repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+	    	repo.setStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
 	    	return true;
     	}
     	else {
@@ -322,7 +324,7 @@ public class Table {
 		studentBeingAnswered = studentIdBeingAnswered;
     	
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
-    	repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+    	repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	
     	presentingTheMenu = true;
     	
@@ -353,7 +355,7 @@ public class Table {
 	public synchronized void getThePad() {
 		
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.TAKING_THE_ORDER);
-    	repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+    	repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	
     	takingOrder = true; 
     	notifyAll();
@@ -378,7 +380,7 @@ public class Table {
 
 	public synchronized void returnToBar() {
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.APPRAISING_SITUATION);
-		repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 	}
 
 	public synchronized void presentTheBill() {
@@ -387,7 +389,7 @@ public class Table {
     	notifyAll();
     	
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.RECEIVING_PAYMENT);
-    	repo.updateWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+    	repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 
     	try {
 			wait();

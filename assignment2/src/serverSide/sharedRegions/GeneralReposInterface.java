@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package serverSide.sharedRegions;
+
+import commInfra.*;
 
 /**
  *  Interface to the General Repository of Information.
@@ -94,7 +92,7 @@ public class GeneralReposInterface
         case MessageType.STCST:    repos.setChefState (inMessage.getChefId (), inMessage.getCustState ());
                                    outMessage = new Message (MessageType.SACK);
                                    break;
-        case MessageType.STWST:   repos.setWaiterState (inMessage.getWaiterId (), inMessage.getWaiterState ();                              
+        case MessageType.STWST:   repos.setWaiterState (inMessage.getWaiterId (), inMessage.getWaiterState ());                              
                                    outMessage = new Message (MessageType.SACK);
                                    break;
         case MessageType.SHUT:     repos.shutdown ();

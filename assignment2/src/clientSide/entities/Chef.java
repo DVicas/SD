@@ -12,11 +12,31 @@ import clientSide.stubs.*;
 
 public class Chef extends Thread {
 	
+	/**
+	 * 	Chef state
+	 */
+	
 	private int chefState;
 	
+	/**
+	 *  Reference to the stub of the kitchen.
+	 */
+	
 	private final BarStub barStub;
+	
+	/**
+	 *  Reference to the stub of the kitchen.
+	 */
+	
 	private final KitchenStub kitchenStub;
-
+	
+	/**
+	 * 	Instantiation of the chef thread
+	 * 
+	 * 	@param name thread name
+	 * 	@param kitchen reference to the kitchen
+	 * 	@param bar reference to the bar stub
+	 */
 	
 	public Chef(String name, KitchenStub kitchen, BarStub bar) {
 		super(name);
@@ -25,10 +45,24 @@ public class Chef extends Thread {
 		chefState = ChefStates.WAITING_FOR_AN_ORDER;
 	}
 	
+	/**
+	 * 	Get the chef current state
+	 * 
+	 * 	@return chef state
+	 */
+	
 	public int getChefState() { return chefState; }
+	
+	/**
+	 * 	Set the chef state
+	 */
 	
  	public void setChefState(int chefState) { this.chefState = chefState; } 
 	
+ 	/**
+ 	 * 	Lifecycle of the chef
+ 	 */
+ 	
  	@Override
 	public void run() {
 		

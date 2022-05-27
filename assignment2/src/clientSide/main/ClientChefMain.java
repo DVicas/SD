@@ -22,11 +22,11 @@ public class ClientChefMain {
      *    @param args runtime arguments
      */	
     public static void main(String[] args) {
-        Chef chef;                                              //Reference to the Chef Thread		
+        Chef chef;                      //Reference to the Chef Thread		
         
-        BarStub bar;						//Reference to the Bar
-        KitchenStub kitchen;					//Reference to the Kitchen
-        TableStub table;                                        //Reference to the Table
+        BarStub bar;					//Reference to the Bar
+        KitchenStub kitchen;			//Reference to the Kitchen
+        TableStub table;                //Reference to the Table
         
         bar = new BarStub(" ", 22150);
         kitchen = new KitchenStub(" ", 22151);

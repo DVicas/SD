@@ -192,7 +192,7 @@ public class TableStub {
 	    }
 	    
 	    //MESSAGES
-	    outMessage = new Message(MessageType.DPREQ, ((Waiter) Thread.currentThread()).getWaiterState());
+	    outMessage = new Message(MessageType.REQDP, ((Waiter) Thread.currentThread()).getWaiterState());
 	    
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
@@ -244,7 +244,7 @@ public class TableStub {
 	}
 	
 	
-	public int getFirstToArrive() {
+	public int getFirstStudent() {
 		ClientCom com;                                                 // communication channel
 	    Message outMessage,                                            // outgoing message
 	            inMessage;                                             // incoming message
