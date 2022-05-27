@@ -110,7 +110,7 @@ public class BarInterface {
         
         {   case MessageType.REQENT:  ((BarClientProxy) Thread.currentThread ()).setStudentId (inMessage.getStudentId ());
                                    ((BarClientProxy) Thread.currentThread ()).setStudentState (inMessage.getStudentState ());
-                                    bar.enter()
+                                    bar.enter();
                                       outMessage = new Message (MessageType.ENTDONE,
                                                                 ((BarClientProxy) Thread.currentThread ()).getStudentId (),
                                                                 ((BarClientProxy) Thread.currentThread ()).getStudentState ());
@@ -120,7 +120,7 @@ public class BarInterface {
                                    break;
             case MessageType.REQCW: ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentId ());
                                     ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentState ());
-                                    bar.callWaiter ()
+                                    bar.callWaiter ();
                                         outMessage = new Message (MessageType.CWDONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getStudentId(),
                                                                     ((BarClientProxy)Thread.currentThread()).getStudentState());
@@ -129,7 +129,7 @@ public class BarInterface {
 
             case MessageType.REQEXIT: ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentId ());
                                     ((BarClientProxy) Thread.currentThread()).setStudentId (inMessage.getStudentState ());
-                                    bar.exit ()
+                                    bar.exit ();
                                         outMessage = new Message (MessageType.EXITDONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getStudentId(),
                                                                     ((BarClientProxy)Thread.currentThread()).getStudentState());         
@@ -137,17 +137,17 @@ public class BarInterface {
                                     //nao sei se falta alguma coisa
                                     break;
 
-            case MessageType.REQSW: ((BarClientProxy) Thread.currentThread()).setStudentID(inMessage.getStudentID());
-                                    ((BarClientProxy) Thread.currentThread()).setStudentID(inMessage.getStudentState());
+            case MessageType.REQSW: ((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+                                    ((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentState());
                                     bar.signalWaiter();
                                     outMessage = new Message(MessageType.SWDONE,
-                                            ((BarClientProxy) Thread.currentThread()).getStudentID(),
+                                            ((BarClientProxy) Thread.currentThread()).getStudentId(),
                                             ((BarClientProxy) Thread.currentThread()).getStudentState());
                                     //nao sei se falta alguma coisa
                                     break;
 
             case MessageType.REQLA: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
-                                    char req = bar.lookAround ()
+                                    char req = bar.lookAround();
                                         outMessage = new Message (MessageType.LADONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getWaiterState());         
 
@@ -155,7 +155,7 @@ public class BarInterface {
                                     break;
 
             case MessageType.REQSG: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
-                                    if(bar.sayGoodbye ())
+                                    if(bar.sayGoodbye())
                                         outMessage = new Message (MessageType.SGDONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getWaiterState());         
 
@@ -163,7 +163,7 @@ public class BarInterface {
                                     break;
         
             case MessageType.REQPB: ((BarClientProxy) Thread.currentThread()).setWaiterState (inMessage.getWaiterState ());
-                                    bar.prepareTheBill ()
+                                    bar.prepareTheBill();
                                         outMessage = new Message (MessageType.PBDONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getWaiterState());         
 
@@ -171,14 +171,14 @@ public class BarInterface {
                                     break;
             
             case MessageType.REQAL: ((BarClientProxy) Thread.currentThread()).setChefState (inMessage.getChefState ());
-                                    bar.alertTheWaiter ()
+                                    bar.alertTheWaiter();
                                         outMessage = new Message (MessageType.ALDONE,
                                                                     ((BarClientProxy)Thread.currentThread()).getChefState());         
 
                                     //nao sei se falta alguma coisa
                                     break;
 
-            case MessageType.SHUT:     bar.shutdown ();
+            case MessageType.SHUT:     bar.shutdown();
                                    outMessage = new Message (MessageType.SHUTDONE);
                                    break;
         }
