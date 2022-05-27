@@ -55,7 +55,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.SCDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -96,7 +95,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.RBDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -131,7 +129,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.GBDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -166,7 +163,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.HACBSDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -176,7 +172,7 @@ public class TableStub {
 	    ((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 	    com.close();
 	    
-	    return (inMessage.getMsgType() == MessageType.RBDONE);
+	    return inMessage.getCheck();
 	}
 	
 	public void deliverPortion() {
@@ -197,7 +193,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.DPDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -226,7 +221,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.PREBDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -242,7 +236,6 @@ public class TableStub {
 	    ((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 	    com.close();
 	}
-	
 	
 	public int getFirstStudent() {
 		ClientCom com;                                                 // communication channel
@@ -262,7 +255,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.GFTADONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -293,7 +285,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.GLTEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -324,7 +315,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.SATDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -365,7 +355,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.RMDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -406,18 +395,11 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.PODONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
 	    	System.exit(1);
 	    }
-	    
-//	    if(inMessage.getStudentID() != ((Student) Thread.currentThread()).getStudentID()) {
-//	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Student ID!");
-//	    	GenericIO.writelnString(inMessage.toString());
-//	    	System.exit(1);
-//	    }
 	    
 	    if(inMessage.getStudentState() != StudentStates.ORGANIZING_THE_ORDER) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Student State!");
@@ -447,7 +429,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.EHCDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -457,7 +438,7 @@ public class TableStub {
 	    ((Student) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 	    com.close();
 	    
-	    return (inMessage.getMsgType() == MessageType.EHCDONE);
+	    return inMessage.getCheck();
 	}
 	
 	public void addUpOnesChoices() {
@@ -478,8 +459,7 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
-	    if((inMessage.getMsgType() != MessageType.AUOCDONE)) {
+ 	    if((inMessage.getMsgType() != MessageType.AUOCDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
 	    	System.exit(1);
@@ -507,7 +487,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.DODONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -536,7 +515,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.JTDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -571,7 +549,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.ICDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -612,7 +589,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.SEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -653,7 +629,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.EEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -696,7 +671,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.HEFEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -712,7 +686,7 @@ public class TableStub {
 	    ((Student) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 	    com.close();
 	    
-	    return (inMessage.getMsgType() == MessageType.HEFEDONE);
+	    return inMessage.getCheck();
 	}
 	
 	public void honourTheBill() {
@@ -733,7 +707,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.HBDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -762,7 +735,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.HACBEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -772,7 +744,7 @@ public class TableStub {
 	    ((Student) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 	    com.close();
 	    
-	    return (inMessage.getMsgType() == MessageType.HACBEDONE);
+	    return inMessage.getCheck();
 	}
 	
 	public boolean shouldHaveArrivedEarlier() {
@@ -793,7 +765,6 @@ public class TableStub {
 	    com.writeObject(outMessage);
 	    inMessage = (Message) com.readObject();
 	    
-	    //TODO Message Types - enter
 	    if((inMessage.getMsgType() != MessageType.SHAEDONE)) {
 	    	GenericIO.writelnString("Thread "+Thread.currentThread().getName()+": Invalid Message Type!");
 	    	GenericIO.writelnString(inMessage.toString());
@@ -815,7 +786,7 @@ public class TableStub {
 	    ((Student) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 	    com.close();
 	    
-	    return (inMessage.getMsgType() == MessageType.SHAEDONE);
+	    return inMessage.getCheck();
 	}
 	
 	/**
@@ -829,7 +800,7 @@ public class TableStub {
 				inMessage;                                             // incoming message
 	
 		com = new ClientCom(serverHostName, serverPortNum);
-		while (!com.open ()) {
+		while (!com.open()) {
 			try {
 				Thread.sleep((long) (1000));
 	        }

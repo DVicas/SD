@@ -20,7 +20,7 @@ public class MessageType {
 
 	public static final int NFICDONE = 2;
 
-	////////////// STUDENT TYPES ///////////////
+	////////////// STUDENT TYPES ///////////////  3 -> 42
 
 	/**
 	 * enter(request).
@@ -263,7 +263,7 @@ public class MessageType {
 	public static final int GLTEDONE = 42;
 
 	
-	//////////// WAITER TYPES /////////////
+	//////////// WAITER TYPES /////////////  43 -> 66
 	
 	/**
 	 * LOOK AROUND (REQUEST)
@@ -408,7 +408,8 @@ public class MessageType {
 
 	public static final int PREBDONE = 66;
 	
-	//////////// CHEF TYPES /////////////
+	
+	//////////// CHEF TYPES /////////////  67 -> 86
 	
 	/**
 	 * watch the news (request)
@@ -518,9 +519,6 @@ public class MessageType {
 
 	public static final int ALDONE = 84;
 
-	
-
-	
 	/**
 	 * returnBar (REQUEST)
 	 */
@@ -535,8 +533,8 @@ public class MessageType {
 
 	
 	
-
-
+	
+	
 	/**
 	 * Server shutdown (service request).
 	 */
@@ -573,7 +571,7 @@ public class MessageType {
 	 * update seats at table (REQUEST).
 	 */
 
-	public static final int STUSAT = 92
+	public static final int STUSAT = 92;
 	/**
 	 * Setting acknowledged (reply).
 	 */

@@ -95,7 +95,7 @@ public class GeneralReposInterface
         case MessageType.STWST:   repos.setWaiterState (inMessage.getWaiterId (), inMessage.getWaiterState ());                              
                                    outMessage = new Message (MessageType.SACK);
                                    break;
-        case MessageType.STUSAT:   repos.setWaiterState (inMessage.getStudentId (), inMessage.getStudentState ();                              
+        case MessageType.STUSAT:   repos.setWaiterState (inMessage.getStudentId (), inMessage.getStudentState());                              
                                    outMessage = new Message (MessageType.SACK);
                                    break;
         case MessageType.SHUT:     repos.shutdown ();

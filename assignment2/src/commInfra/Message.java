@@ -42,6 +42,10 @@ public class Message implements Serializable {
 	 */
 	private int studentState = -1;
 	
+	/**
+	 * Number of iterations
+	 */
+	
 	private int nIter = -1;
 
 	private int var1 = -1;
