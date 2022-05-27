@@ -86,13 +86,16 @@ public class GeneralReposInterface
       { case MessageType.SETNFIC:  repos.initSimul (inMessage.getLogFName (), inMessage.getNIter ());
                                    outMessage = new Message (MessageType.NFICDONE);
                                    break;
-        case MessageType.STSST:    repos.setBarberState (inMessage.getStudentbId (), inMessage.getStudentState ());
+        case MessageType.STSST:    repos.setStudentState (inMessage.getStudentbId (), inMessage.getStudentState ());
                                    outMessage = new Message (MessageType.SACK);
                                    break;
-        case MessageType.STCST:    repos.setChefState (inMessage.getChefId (), inMessage.getCustState ());
+        case MessageType.STCST:    repos.setChefState (inMessage.getChefId (), inMessage.getChefState ());
                                    outMessage = new Message (MessageType.SACK);
                                    break;
         case MessageType.STWST:   repos.setWaiterState (inMessage.getWaiterId (), inMessage.getWaiterState ());                              
+                                   outMessage = new Message (MessageType.SACK);
+                                   break;
+        case MessageType.STUSAT:   repos.setWaiterState (inMessage.getStudentId (), inMessage.getStudentState ();                              
                                    outMessage = new Message (MessageType.SACK);
                                    break;
         case MessageType.SHUT:     repos.shutdown ();
