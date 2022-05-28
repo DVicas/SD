@@ -15,18 +15,23 @@ public class Message implements Serializable {
 	 * Serialization key.
 	 */
 	private static final long serialVersionUID = 2022L;
-	
+
+	/**
+	 * Name of the logging file
+	 */
+	private String logFileName;
+
 	/**
 	 * Message type
 	 */
-	
+
 	private int msgType = -1;
-	
+
 	/**
 	 * Chef state
 	 */
 	private int chefState = -1;
-	
+
 	/**
 	 * Waiter state
 	 */
@@ -41,11 +46,11 @@ public class Message implements Serializable {
 	 * Student state
 	 */
 	private int studentState = -1;
-	
+
 	/**
 	 * Number of iterations
 	 */
-	
+
 	private int nIter = -1;
 
 	private int var1 = -1;
@@ -123,6 +128,12 @@ public class Message implements Serializable {
 		this.var2 = var2;
 	}
 
+	public Message(int type, String fileName, int nIter) {
+		this.msgType = type;
+		this.logFileName = fileName;
+		this.nIter = nIter;
+	}
+
 	public int getMsgType() {
 		return msgType;
 	}
@@ -131,8 +142,8 @@ public class Message implements Serializable {
 		return check;
 	}
 
-	public Request getRequest() {
-		return request;
+	public char getRequest() {
+		return request.type;
 	}
 
 	public int getStudentId() {
@@ -158,9 +169,13 @@ public class Message implements Serializable {
 	public int getVar2() {
 		return var2;
 	}
-	
+
 	public int getNIter() {
 		return nIter;
+	}
+
+	public String getLogFileName() {
+		return logFileName;
 	}
 
 	@Override

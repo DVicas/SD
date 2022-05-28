@@ -5,215 +5,200 @@ import clientSide.entities.*;
 import commInfra.*;
 import genclass.GenericIO;
 
-
 /**
- *  Service provider agent for access to the Bar.
+ * Service provider agent for access to the Bar.
  *
- *    Implementation of a client-server model of type 2 (server replication).
- *    Communication is based on a communication channel under the TCP protocol.
+ * Implementation of a client-server model of type 2 (server replication).
+ * Communication is based on a communication channel under the TCP protocol.
  */
-public class BarClientProxy extends Thread implements StudentCloning, WaiterCloning, ChefCloning  {
-    
-    /**
-   *  Number of instantiated threads.
-   */
+public class BarClientProxy extends Thread implements StudentCloning, WaiterCloning, ChefCloning {
 
-   private static int nProxy = 0;
+	/**
+	 * Number of instantiated threads.
+	 */
 
-  /**
-   *  Communication channel.
-   */
+	private static int nProxy = 0;
 
-   private ServerCom sconi;
+	/**
+	 * Communication channel.
+	 */
 
-  /**
-   *  Interface to the Bar.
-   */
+	private ServerCom sconi;
 
-   private BarInterface barInter;
+	/**
+	 * Interface to the Bar.
+	 */
 
-  /**
-   *  Student identification.
-   */
+	private BarInterface barInter;
 
-   private int studentId;
+	/**
+	 * Student identification.
+	 */
 
-  /**
-   *  Student state.
-   */
+	private int studentId;
 
-   private int studentState;
+	/**
+	 * Student state.
+	 */
 
-  /**
-   *  Chef state.
-   */
+	private int studentState;
 
-   private int chefState;
-   
-   /**
-   *  Waiter state.
-   */
+	/**
+	 * Chef state.
+	 */
 
-   private int waiterState;
-    
+	private int chefState;
 
-    /**
-    *  Instantiation of a client proxy.
-    *
-    *     @param sconi communication channel
-    *     @param barInter interface to the bar
-    */
+	/**
+	 * Waiter state.
+	 */
 
-    public BarClientProxy (ServerCom sconi, BarInterface barInter)
-    {
-       super ("BarProxy_" + BarClientProxy.getProxyId ());
-       this.sconi = sconi;
-       this.barInter = barInter;
-    }
+	private int waiterState;
 
-    /**
-    *  Generation of the instantiation identifier.
-    *
-    *     @return instantiation identifier
-    */
+	/**
+	 * Instantiation of a client proxy.
+	 *
+	 * @param sconi    communication channel
+	 * @param barInter interface to the bar
+	 */
 
-    private static int getProxyId ()
-    {
-       Class<?> cl = null;                                            // representation of the BarClientProxy object in JVM
-       int proxyId;                                                   // instantiation identifier
+	public BarClientProxy(ServerCom sconi, BarInterface barInter) {
+		super("BarProxy_" + BarClientProxy.getProxyId());
+		this.sconi = sconi;
+		this.barInter = barInter;
+	}
 
-       try
-       { cl = Class.forName ("serverSide.entities.BarClientProxy");
-       }
-       catch (ClassNotFoundException e)
-       { GenericIO.writelnString ("Data type BarClientProxy was not found!");
-         e.printStackTrace ();
-         System.exit (1);
-       }
-       synchronized (cl)
-       { proxyId = nProxy;
-         nProxy += 1;
-       }
-       return proxyId;
-    }
+	/**
+	 * Generation of the instantiation identifier.
+	 *
+	 * @return instantiation identifier
+	 */
 
-    /**
-   *  Life cycle of the service provider agent.
-   */
+	private static int getProxyId() {
+		Class<?> cl = null; // representation of the BarClientProxy object in JVM
+		int proxyId; // instantiation identifier
 
-    @Override
-    public void run ()
-    {
-       Message inMessage = null,                                      // service request
-               outMessage = null;                                     // service reply
+		try {
+			cl = Class.forName("serverSide.entities.BarClientProxy");
+		} catch (ClassNotFoundException e) {
+			GenericIO.writelnString("Data type BarClientProxy was not found!");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		synchronized (cl) {
+			proxyId = nProxy;
+			nProxy += 1;
+		}
+		return proxyId;
+	}
 
-      /* service providing */
+	/**
+	 * Life cycle of the service provider agent.
+	 */
 
-       inMessage = (Message) sconi.readObject ();                     // get service request
-       try
-       { outMessage = barInter.processAndReply (inMessage);         // process it
-       }
-       catch (MessageException e)
-       { GenericIO.writelnString ("Thread " + getName () + ": " + e.getMessage () + "!");
-         GenericIO.writelnString (e.getMessageVal ().toString ());
-         System.exit (1);
-       }
-       sconi.writeObject (outMessage);                                // send service reply
-       sconi.close ();                                                // close the communication channel
-    }
-    
-    /**
-    *   Set student id.
-    *
-    *     @param id student id
-    */
+	@Override
+	public void run() {
+		Message inMessage = null, // service request
+				outMessage = null; // service reply
 
-    public void setStudentId (int id)
-    {
-       studentId = id;
-    }
-    
-    /**
-    *   Get student id.
-    *
-    *     @return student id
-    */
+		/* service providing */
 
-    public int getStudentId ()
-    {
-       return studentId;
-    }
-    
-    /**
-    *   Set student state.
-    *
-    *     @param state new student state
-    */
+		inMessage = (Message) sconi.readObject(); // get service request
+		try {
+			outMessage = barInter.processAndReply(inMessage); // process it
+		} catch (MessageException e) {
+			GenericIO.writelnString("Thread " + getName() + ": " + e.getMessage() + "!");
+			GenericIO.writelnString(e.getMessageVal().toString());
+			System.exit(1);
+		}
+		sconi.writeObject(outMessage); // send service reply
+		sconi.close(); // close the communication channel
+	}
 
-    public void setStudentState (int state)
-    {
-       studentState = state;
-    }
-    
-    /**
-    *   Get student state.
-    *
-    *     @return student state
-    */
+	/**
+	 * Set student id.
+	 *
+	 * @param id student id
+	 */
 
-    public int getStudentState ()
-    {
-       return studentState;
-    }
-    
-    /**
-    *   Set waiter state.
-    *
-    *     @param state new waiter state
-    */
-    
-    public void setWaiterState (int state)
-    {
-       waiterState = state;
-    }
-    
-    /**
-    *   Get waiter state.
-    *
-    *     @return waiter state
-    */
+	public void setStudentId(int id) {
+		studentId = id;
+	}
 
-    public int getWaiterState ()
-    {
-       return waiterState;
-    }
-    
-    /**
-    *   Set chef state.
-    *
-    *     @param state new chef state
-    */
-    
-    public void setChefState (int state)
-    {
-       chefState = state;
-    }
-    
-    /**
-    *   Get chef state.
-    *
-    *     @return chef state
-    */
+	/**
+	 * Get student id.
+	 *
+	 * @return student id
+	 */
 
-    public int getChefState ()
-    {
-       return chefState;
-    }
+	public int getStudentId() {
+		return studentId;
+	}
+
+	/**
+	 * Set student state.
+	 *
+	 * @param state new student state
+	 */
+
+	public void setStudentState(int state) {
+		studentState = state;
+	}
+
+	/**
+	 * Get student state.
+	 *
+	 * @return student state
+	 */
+
+	public int getStudentState() {
+		return studentState;
+	}
+
+	/**
+	 * Set waiter state.
+	 *
+	 * @param state new waiter state
+	 */
+
+	public void setWaiterState(int state) {
+		waiterState = state;
+	}
+
+	/**
+	 * Get waiter state.
+	 *
+	 * @return waiter state
+	 */
+
+	public int getWaiterState() {
+		return waiterState;
+	}
+
+	/**
+	 * Set chef state.
+	 *
+	 * @param state new chef state
+	 */
+
+	public void setChefState(int state) {
+		chefState = state;
+	}
+
+	/**
+	 * Get chef state.
+	 *
+	 * @return chef state
+	 */
+
+	public int getChefState() {
+		return chefState;
+	}
 
 	@Override
 	public void setChefId(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -225,7 +210,7 @@ public class BarClientProxy extends Thread implements StudentCloning, WaiterClon
 	@Override
 	public void setWaiterId(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class MessageType {
 
 	public static final int NFICDONE = 2;
 
-	////////////// STUDENT TYPES ///////////////  3 -> 42
+	////////////// STUDENT TYPES /////////////// 3 -> 42
 
 	/**
 	 * enter(request).
@@ -69,7 +69,7 @@ public class MessageType {
 	 */
 
 	public static final int EXITDONE = 10;
-	
+
 	/**
 	 * seatAtTable (REQUEST)
 	 */
@@ -93,7 +93,7 @@ public class MessageType {
 	 */
 
 	public static final int RMDONE = 14;
-	
+
 	/**
 	 * getFirstToArrive (REQUEST)
 	 */
@@ -105,7 +105,7 @@ public class MessageType {
 	 */
 
 	public static final int GFTADONE = 16;
-	
+
 	/**
 	 * prepareOrder (REQUEST)
 	 */
@@ -117,7 +117,7 @@ public class MessageType {
 	 */
 
 	public static final int PODONE = 18;
-	
+
 	/**
 	 * everybodyHasChosen (REQUEST)
 	 */
@@ -129,7 +129,7 @@ public class MessageType {
 	 */
 
 	public static final int EHCDONE = 20;
-	
+
 	/**
 	 * addUpOnesChoices (REQUEST)
 	 */
@@ -153,7 +153,7 @@ public class MessageType {
 	 */
 
 	public static final int DODONE = 24;
-	
+
 	/**
 	 * joinTalk (REQUEST)
 	 */
@@ -177,7 +177,7 @@ public class MessageType {
 	 */
 
 	public static final int ICDONE = 28;
-	
+
 	/**
 	 * haveAllCoursesBeenEaten (REQUEST)
 	 */
@@ -189,7 +189,7 @@ public class MessageType {
 	 */
 
 	public static final int HACBEDONE = 30;
-	
+
 	/**
 	 * startEating (REQUEST)
 	 */
@@ -213,7 +213,7 @@ public class MessageType {
 	 */
 
 	public static final int EEDONE = 34;
-	
+
 	/**
 	 * hasEverybodyFinishedEating (REQUEST)
 	 */
@@ -225,7 +225,7 @@ public class MessageType {
 	 */
 
 	public static final int HEFEDONE = 36;
-	
+
 	/**
 	 * honourBill (REQUEST)
 	 */
@@ -249,7 +249,7 @@ public class MessageType {
 	 */
 
 	public static final int SHAEDONE = 40;
-	
+
 	/**
 	 * getLastToEat (REQUEST)
 	 */
@@ -262,9 +262,8 @@ public class MessageType {
 
 	public static final int GLTEDONE = 42;
 
-	
-	//////////// WAITER TYPES /////////////  43 -> 66
-	
+	//////////// WAITER TYPES ///////////// 43 -> 66
+
 	/**
 	 * LOOK AROUND (REQUEST)
 	 */
@@ -300,7 +299,7 @@ public class MessageType {
 	 */
 
 	public static final int PBDONE = 48;
-	
+
 	/**
 	 * saluteClient (REQUEST)
 	 */
@@ -324,7 +323,7 @@ public class MessageType {
 	 */
 
 	public static final int GSBADONE = 52;
-	
+
 	/**
 	 * returnToBar (REQUEST)
 	 */
@@ -371,7 +370,7 @@ public class MessageType {
 	 */
 
 	public static final int HACBSDONE = 60;
-	
+
 	/**
 	 * collectPortion (REQUEST)
 	 */
@@ -395,7 +394,7 @@ public class MessageType {
 	 */
 
 	public static final int DPDONE = 64;
-	
+
 	/**
 	 * presentBill (REQUEST)
 	 */
@@ -407,10 +406,9 @@ public class MessageType {
 	 */
 
 	public static final int PREBDONE = 66;
-	
-	
-	//////////// CHEF TYPES /////////////  67 -> 86
-	
+
+	//////////// CHEF TYPES ///////////// 67 -> 86
+
 	/**
 	 * watch the news (request)
 	 */
@@ -531,10 +529,6 @@ public class MessageType {
 
 	public static final int RBDONE = 86;
 
-	
-	
-	
-	
 	/**
 	 * Server shutdown (service request).
 	 */
@@ -547,9 +541,8 @@ public class MessageType {
 
 	public static final int SHUTDONE = 88;
 
-	
 	/////////// GENERAL REPOS ////////////
-	
+
 	/**
 	 * setStudentState (REQUEST).
 	 */

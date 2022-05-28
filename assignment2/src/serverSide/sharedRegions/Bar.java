@@ -5,11 +5,12 @@ import clientSide.stubs.GeneralReposStub;
 import commInfra.*;
 import serverSide.entities.*;
 import serverSide.main.ServerBarMain;
+import serverSide.main.SimulPar;
 
 public class Bar {
-	
+
 	/**
-	 *   Number of entity groups requesting the shutdown.
+	 * Number of entity groups requesting the shutdown.
 	 */
 	private int nEntities;
 

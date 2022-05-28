@@ -173,16 +173,16 @@ public class Kitchen {
 		((Chef) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
 		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
-	
+
 	/**
-	 *   Operation server shutdown.
+	 * Operation server shutdown.
 	 *
-	 *   New operation.
+	 * New operation.
 	 */
-	 public synchronized void shutdown() {
-		 nEntities += 1;
-	     if (nEntities >= 2)
-	    	 ServerKitchenMain.waitConnection = false;
-	     notifyAll();
-	 }
+	public synchronized void shutdown() {
+		nEntities += 1;
+		if (nEntities >= 2)
+			ServerKitchenMain.waitConnection = false;
+		notifyAll();
+	}
 }

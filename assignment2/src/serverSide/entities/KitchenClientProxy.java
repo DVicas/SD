@@ -5,215 +5,200 @@ import clientSide.entities.*;
 import commInfra.*;
 import genclass.GenericIO;
 
-
 /**
- *  Service provider agent for access to the Kitchen.
+ * Service provider agent for access to the Kitchen.
  *
- *    Implementation of a client-server model of type 2 (server replication).
- *    Communication is based on a communication channel under the TCP protocol.
+ * Implementation of a client-server model of type 2 (server replication).
+ * Communication is based on a communication channel under the TCP protocol.
  */
 public class KitchenClientProxy extends Thread implements StudentCloning, WaiterCloning, ChefCloning {
 	/**
-	 *  Number of instantiated threads.
+	 * Number of instantiated threads.
 	 */
 
 	private static int nProxy = 0;
 
 	/**
-	 *  Communication channel.
+	 * Communication channel.
 	 */
 
 	private ServerCom sconi;
 
 	/**
-	 *  Interface to the Kitchen.
+	 * Interface to the Kitchen.
 	 */
 
 	private KitchenInterface kitchenInter;
 
 	/**
-	 *  Student identification.
+	 * Student identification.
 	 */
 
 	private int studentId;
 
 	/**
-	 *  Student state.
+	 * Student state.
 	 */
 
 	private int studentState;
-	
+
 	/**
-	 *  Chef state.
+	 * Chef state.
 	 */
 
 	private int chefState;
-	   
+
 	/**
-	 *  Waiter state.
+	 * Waiter state.
 	 */
 
 	private int waiterState;
-	    
 
 	/**
-	 *  Instantiation of a client proxy.
+	 * Instantiation of a client proxy.
 	 *
-	 *     @param sconi communication channel
-	 *     @param kitchenInter interface to the Kitchen
+	 * @param sconi        communication channel
+	 * @param kitchenInter interface to the Kitchen
 	 */
 
-	public KitchenClientProxy (ServerCom sconi, KitchenInterface kitchenInter)
-	{
-		super ("KitchenProxy_" + KitchenClientProxy.getProxyId ());
+	public KitchenClientProxy(ServerCom sconi, KitchenInterface kitchenInter) {
+		super("KitchenProxy_" + KitchenClientProxy.getProxyId());
 		this.sconi = sconi;
 		this.kitchenInter = kitchenInter;
 	}
 
 	/**
-	 *  Generation of the instantiation identifier.
+	 * Generation of the instantiation identifier.
 	 *
-	 *     @return instantiation identifier
+	 * @return instantiation identifier
 	 */
 
-	private static int getProxyId ()
-	{
-		Class<?> cl = null;                                            // representation of the KitchenProxy object in JVM
-		int proxyId;                                                   // instantiation identifier
+	private static int getProxyId() {
+		Class<?> cl = null; // representation of the KitchenProxy object in JVM
+		int proxyId; // instantiation identifier
 
-		try
-		{ cl = Class.forName ("serverSide.entities.KitchenClientProxy");
+		try {
+			cl = Class.forName("serverSide.entities.KitchenClientProxy");
+		} catch (ClassNotFoundException e) {
+			GenericIO.writelnString("Data type KitchenClientProxy was not found!");
+			e.printStackTrace();
+			System.exit(1);
 		}
-		catch (ClassNotFoundException e)
-		{ GenericIO.writelnString ("Data type KitchenClientProxy was not found!");
-		  e.printStackTrace ();
-		  System.exit (1);
-		}
-		synchronized (cl)
-		{ proxyId = nProxy;
-		  nProxy += 1;
+		synchronized (cl) {
+			proxyId = nProxy;
+			nProxy += 1;
 		}
 		return proxyId;
 	}
 
 	/**
-	 *  Life cycle of the service provider agent.
+	 * Life cycle of the service provider agent.
 	 */
 
 	@Override
-	public void run ()
-	{
-		Message inMessage = null,                                      // service request
-				outMessage = null;                                     // service reply
+	public void run() {
+		Message inMessage = null, // service request
+				outMessage = null; // service reply
 
 		/* service providing */
 
-		inMessage = (Message) sconi.readObject ();                     // get service request
-		try
-		{ outMessage = kitchenInter.processAndReply (inMessage);         // process it
+		inMessage = (Message) sconi.readObject(); // get service request
+		try {
+			outMessage = kitchenInter.processAndReply(inMessage); // process it
+		} catch (MessageException e) {
+			GenericIO.writelnString("Thread " + getName() + ": " + e.getMessage() + "!");
+			GenericIO.writelnString(e.getMessageVal().toString());
+			System.exit(1);
 		}
-		catch (MessageException e)
-		{ GenericIO.writelnString ("Thread " + getName () + ": " + e.getMessage () + "!");
-		  GenericIO.writelnString (e.getMessageVal ().toString ());
-		  System.exit (1);
-		}
-		
-		sconi.writeObject (outMessage);                                // send service reply
-		sconi.close ();                                                // close the communication channel
+
+		sconi.writeObject(outMessage); // send service reply
+		sconi.close(); // close the communication channel
 	}
-	    
+
 	/**
-	 *   Set student id.
+	 * Set student id.
 	 *
-	 *     @param id student id
+	 * @param id student id
 	 */
 
-	public void setStudentId (int id)
-	{
+	public void setStudentId(int id) {
 		studentId = id;
 	}
-	    
+
 	/**
-	 *   Get student id.
+	 * Get student id.
 	 *
-	 *     @return student id
-	 */
-	
-	public int getStudentId ()
-	{
-		return studentId;
-	}
-	    
-	/**
-	 *   Set student state.
-	 *
-	 *     @param state new student state
+	 * @return student id
 	 */
 
-	public void setStudentState (int state)
-	{
+	public int getStudentId() {
+		return studentId;
+	}
+
+	/**
+	 * Set student state.
+	 *
+	 * @param state new student state
+	 */
+
+	public void setStudentState(int state) {
 		studentState = state;
 	}
-	    
+
 	/**
-	 *   Get student state.
+	 * Get student state.
 	 *
-	 *     @return student state
+	 * @return student state
 	 */
-	
-	public int getStudentState ()
-	{
+
+	public int getStudentState() {
 		return studentState;
 	}
-	    
+
 	/**
-	 *   Set waiter state.
+	 * Set waiter state.
 	 *
-	 *     @param state new waiter state
+	 * @param state new waiter state
 	 */
-	    
-	public void setWaiterState (int state)
-	{
+
+	public void setWaiterState(int state) {
 		waiterState = state;
 	}
-	    
+
 	/**
-	 *   Get waiter state.
+	 * Get waiter state.
 	 *
-	 *     @return waiter state
+	 * @return waiter state
 	 */
-	
-	public int getWaiterState ()
-	{
+
+	public int getWaiterState() {
 		return waiterState;
 	}
-	    
+
 	/**
-	 *   Set chef state.
+	 * Set chef state.
 	 *
-	 *     @param state new chef state
+	 * @param state new chef state
 	 */
-	
-	public void setChefState (int state)
-	{
+
+	public void setChefState(int state) {
 		chefState = state;
 	}
-	    
+
 	/**
-	 *   Get chef state.
+	 * Get chef state.
 	 *
-	 *     @return chef state
+	 * @return chef state
 	 */
-	
-	public int getChefState ()
-	{
+
+	public int getChefState() {
 		return chefState;
 	}
 
 	@Override
 	public void setChefId(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -225,12 +210,12 @@ public class KitchenClientProxy extends Thread implements StudentCloning, Waiter
 	@Override
 	public void setWaiterId(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public int getWaiterId() {
 		// TODO Auto-generated method stub
 		return 0;
-	}    
+	}
 }

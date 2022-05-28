@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/diogo/Downloads/genclass.jar">
+	<classpathentry kind="lib" path="/home/diogo/Documents/SD/genclass.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
