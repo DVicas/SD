@@ -569,5 +569,15 @@ public class MessageType {
 	 * Setting acknowledged (reply).
 	 */
 
-	public static final int SACK = 92;
+	public static final int SACK = 93;
+	
+	////////// TABLE TYPES ///////////
+	
+	public static final int REQSFTA = 94;
+
+    public static final int SFTADONE = 95;
+
+    public static final int REQSLTA = 96;
+
+    public static final int SLTADONE = 97;
 }

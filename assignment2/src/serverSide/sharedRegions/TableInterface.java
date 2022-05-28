@@ -277,6 +277,24 @@ public class TableInterface {
 						((TableClientProxy) Thread.currentThread()).getStudentState());
 			break;
 
+		case MessageType.REQSFTA:
+			((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+			// ((TableClientProxy)
+			// Thread.currentThread()).setStudentState(inMessage.getStudentState());
+			table.setFirstStudent(inMessage.getStudentId());
+			outMessage = new Message(MessageType.SFTADONE, ((TableClientProxy) Thread.currentThread()).getStudentId(),
+					""); // inMessage.getStudentID();
+			break;
+
+		case MessageType.REQSLTA:
+			((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+			// ((TableClientProxy)
+			// Thread.currentThread()).setStudentState(inMessage.getStudentState());
+			table.setFirstStudent(inMessage.getStudentId());
+			outMessage = new Message(MessageType.SLTADONE, ((TableClientProxy) Thread.currentThread()).getStudentId(),
+					"");
+			break;
+
 		case MessageType.SHUT:
 			table.shutdown();
 			outMessage = new Message(MessageType.SHUTDONE);

@@ -190,8 +190,11 @@ public class BarStub {
 		ClientCom com; // communication channel
 		Message outMessage, // outgoing message
 				inMessage; // incoming message
-
+		
+		System.out.println(serverHostName + " " + serverPortNum);
+		
 		com = new ClientCom(serverHostName, serverPortNum);
+
 		while (!com.open()) {
 			try {
 				Thread.currentThread().sleep((long) (10));
@@ -201,10 +204,13 @@ public class BarStub {
 
 		// MESSAGES
 		outMessage = new Message(MessageType.REQLA, ((Waiter) Thread.currentThread()).getWaiterState());
-
+		
+		System.out.println(outMessage);
+		
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
-
+		
+		System.out.println(inMessage);
 		if ((inMessage.getMsgType() != MessageType.LADONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
@@ -219,7 +225,8 @@ public class BarStub {
 
 		((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 		com.close();
-
+		
+		System.out.println(inMessage.getRequest());
 		return inMessage.getRequest();
 	}
 

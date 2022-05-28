@@ -145,12 +145,12 @@ public class BarInterface {
 			break;
 
 		case MessageType.REQLA:
-			((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
-			char req = bar.lookAround();
-			outMessage = new Message(MessageType.LADONE, ((BarClientProxy) Thread.currentThread()).getWaiterState());
-
-			// nao sei se falta alguma coisa
-			break;
+            ((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
+            char request = bar.lookAround();
+            outMessage = new Message(MessageType.LADONE, 
+                    ((BarClientProxy)Thread.currentThread()).getWaiterState(), request);
+            //nao sei se falta alguma coisa
+            break;
 
 		case MessageType.REQSG:
 			((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());

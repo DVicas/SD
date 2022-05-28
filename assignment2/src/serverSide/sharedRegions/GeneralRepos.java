@@ -8,8 +8,7 @@ import java.util.Objects;
 
 import clientSide.entities.*;
 import commInfra.*;
-import genclass.GenericIO;
-import genclass.TextFile;
+import genclass.*;
 import serverSide.main.*;
 
 /**

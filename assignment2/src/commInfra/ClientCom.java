@@ -72,7 +72,6 @@ public class ClientCom {
 		boolean success = true; // flag signaling
 								// success on opening the communication channel
 		SocketAddress serverAddress = new InetSocketAddress(serverHostName, serverPortNumb); // inet address
-
 		try {
 			commSocket = new Socket();
 			commSocket.connect(serverAddress);
@@ -180,7 +179,8 @@ public class ClientCom {
 
 	public Object readObject() {
 		Object fromServer = null; // object that is read
-
+		
+		
 		try {
 			fromServer = in.readObject();
 		} catch (InvalidClassException e) {
