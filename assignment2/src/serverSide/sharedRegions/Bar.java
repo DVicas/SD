@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import clientSide.entities.*;
 import clientSide.stubs.GeneralReposStub;
+import clientSide.stubs.TableStub;
 import commInfra.*;
 import serverSide.entities.*;
 import serverSide.main.ServerBarMain;
@@ -14,26 +15,56 @@ public class Bar {
 	 */
 	private int nEntities;
 
-	private MemFIFO<Request> reqQueue;
-
-	private final Student[] students;
-
-	private boolean[] studentsGreeted;
-
-	private final GeneralReposStub repo;
-
-	private Table table;
-
-	private int nPendingRequests;
+	/**
+	 * Number of students present in the restaurant
+	 */
 	private int nStudentsInRestaurant;
 
+	/**
+	 * Number of pending requests to be answered by the waiter
+	 */
+	private int nPendingRequests;
+
+	/**
+	 * Queue of pending Requests
+	 */
+	private MemFIFO<Request> reqQueue;
+
+	/**
+	 * Reference to the student threads
+	 */
+	private final BarClientProxy[] students;
+
+	/**
+	 * Array of booleans to keep track of the students which the waiter has already
+	 * said goodbye
+	 */
+	private boolean[] studentsGreeted;
+
+	/**
+	 * Reference to the general repository
+	 */
+	private final GeneralReposStub repo;
+
+	/**
+	 * Reference to the table
+	 */
+	private final TableStub tableStub;
+
+	/**
+	 * Auxiliary variable to keep track of the id of the student whose request is
+	 * being answered
+	 */
 	private int studentBeingAnswered;
 
+	/**
+	 * Boolean variable used to store if a course was finished or not
+	 */
 	private boolean courseFinished;
 
-	public Bar(GeneralReposStub reposStub, Table table) {
+	public Bar(GeneralReposStub reposStub, TableStub table) {
 
-		students = new Student[SimulPar.N];
+		students = new BarClientProxy[SimulPar.N];
 		for (int i = 0; i < SimulPar.N; i++) {
 			students[i] = null;
 		}
@@ -45,7 +76,7 @@ public class Bar {
 			System.exit(1);
 		}
 
-		this.table = table;
+		this.tableStub = table;
 		this.nPendingRequests = 0;
 		this.nStudentsInRestaurant = 0;
 		this.studentBeingAnswered = -1;
@@ -83,8 +114,11 @@ public class Bar {
 
 	public synchronized void prepareTheBill() {
 
-		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		BarClientProxy waiter = ((BarClientProxy) Thread.currentThread());
+		if (waiter.getWaiterState() != WaiterStates.PROCESSING_THE_BILL) {
+			waiter.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+			repo.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+		}
 	}
 
 	public synchronized boolean sayGoodbye() {
@@ -109,14 +143,21 @@ public class Bar {
 
 	public synchronized void enter() {
 
-		int id = ((Student) Thread.currentThread()).getStudentId();
-		students[id] = ((Student) Thread.currentThread());
+		BarClientProxy student = ((BarClientProxy) Thread.currentThread());
+		
+		int id = student.getStudentId();
+		students[id] = student;
 
+		if(student.getStudentState() != StudentStates.GOING_TO_THE_RESTAURANT) {
+			students[id].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
+			repo.setStudentState(id, StudentStates.GOING_TO_THE_RESTAURANT);
+		}
+		
 		nStudentsInRestaurant++;
 		if (nStudentsInRestaurant == 1) {
-			table.setFirstStudent(id);
+			tableStub.setFirstStudent(id);
 		} else if (nStudentsInRestaurant == SimulPar.N) {
-			table.setLastStudent(id);
+			tableStub.setLastStudent(id);
 		}
 
 		try {

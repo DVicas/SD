@@ -180,7 +180,7 @@ public class ClientCom {
 	public Object readObject() {
 		Object fromServer = null; // object that is read
 		
-		
+//		System.out.println("ReadObject" + serverHostName + " " + serverPortNumb);
 		try {
 			fromServer = in.readObject();
 		} catch (InvalidClassException e) {
@@ -209,6 +209,7 @@ public class ClientCom {
 	 */
 
 	public void writeObject(Object toServer) {
+//		System.out.println("WriteObject" + serverHostName + " " + serverPortNumb);
 		try {
 			out.writeObject(toServer);
 		} catch (InvalidClassException e) {

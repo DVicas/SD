@@ -205,8 +205,8 @@ public class BarStub {
 		// MESSAGES
 		outMessage = new Message(MessageType.REQLA, ((Waiter) Thread.currentThread()).getWaiterState());
 		
-		System.out.println(outMessage);
-		
+//		System.out.println(outMessage);
+
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 		

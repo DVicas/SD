@@ -216,8 +216,7 @@ public class ServerCom {
 	 */
 
 	public Object readObject() {
-		Object fromClient = null;
-		; // object that is read
+		Object fromClient = null; // object that is read
 
 		try {
 			fromClient = in.readObject();
