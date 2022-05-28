@@ -132,7 +132,7 @@ public class Bar {
 		nStudentsInRestaurant--;
 		studentBeingAnswered = -1;
 
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repo.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
 
 		if (nStudentsInRestaurant == 0)
 			return true;
@@ -168,7 +168,7 @@ public class Bar {
 		nPendingRequests++;
 
 		students[id].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((BarClientProxy) Thread.currentThread()).getStudentState());
 		repo.updateSeatsAtTable(nStudentsInRestaurant - 1, id);
 
 		notifyAll();
@@ -177,7 +177,7 @@ public class Bar {
 	public synchronized void callWaiter() {
 
 		Request newReq;
-		int id = ((Student) Thread.currentThread()).getStudentId();
+		int id = ((BarClientProxy) Thread.currentThread()).getStudentId();
 
 		newReq = new Request(id, 'w');
 
@@ -193,8 +193,8 @@ public class Bar {
 
 	public synchronized void signalWaiter() {
 
-		int studentId = ((Student) Thread.currentThread()).getStudentId();
-		if (((Student) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_MEAL) {
+		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
+		if (((BarClientProxy) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_MEAL) {
 			try {
 				reqQueue.write(new Request(studentId, 'e'));
 			} catch (MemException e) {
@@ -234,15 +234,15 @@ public class Bar {
 		nPendingRequests++;
 		courseFinished = false;
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((BarClientProxy) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repo.setChefState(((BarClientProxy) Thread.currentThread()).getChefState());
 
 		notifyAll();
 	}
 
 	public synchronized void exit() {
 
-		int id = ((Student) Thread.currentThread()).getStudentId();
+		int id = ((BarClientProxy) Thread.currentThread()).getStudentId();
 		Request request = new Request(id, 'g');
 
 		try {
@@ -255,7 +255,7 @@ public class Bar {
 		notifyAll();
 
 		students[id].setStudentState(StudentStates.GOING_HOME);
-		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repo.setStudentState(id, ((BarClientProxy) Thread.currentThread()).getStudentState());
 
 		while (studentsGreeted[id] == false) {
 			try {
