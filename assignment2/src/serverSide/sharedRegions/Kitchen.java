@@ -44,8 +44,8 @@ public class Kitchen {
 
 	public synchronized void watchTheNews() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.WAITING_FOR_AN_ORDER);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.WAITING_FOR_AN_ORDER);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
 		while (!handedNoteToChef) {
 			try {
@@ -60,8 +60,8 @@ public class Kitchen {
 
 	public synchronized void startPreparation() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
 		handedNoteToChef = false;
 
@@ -70,16 +70,16 @@ public class Kitchen {
 
 	public synchronized void proceedToPresentation() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
 		nPortionsReady++;
 	}
 
 	public synchronized void continuePreparation() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 	}
 
 	public synchronized boolean haveAllPortionsBeenDelivered() {
@@ -102,13 +102,13 @@ public class Kitchen {
 
 	public synchronized void haveNextPortionReady() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
 		nPortionsReady++;
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
 		notifyAll();
 	}
@@ -122,8 +122,8 @@ public class Kitchen {
 	}
 
 	public synchronized void handNoteToChef() {
-		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_THE_ORDER);
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_THE_ORDER);
+		repo.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 
 		handedNoteToChef = true;
 
@@ -140,13 +140,13 @@ public class Kitchen {
 	}
 
 	public synchronized void returnToBar() {
-		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.APPRAISING_SITUATION);
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.APPRAISING_SITUATION);
+		repo.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 	}
 
 	public synchronized void collectPortion() {
-		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.WAITING_FOR_PORTION);
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.WAITING_FOR_PORTION);
+		repo.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 
 		while (nPortionsReady == 0) {
 			try {
@@ -170,8 +170,8 @@ public class Kitchen {
 
 	public synchronized void cleanUp() {
 
-		((Chef) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
+		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 	}
 
 	/**
