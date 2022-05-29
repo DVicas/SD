@@ -44,7 +44,7 @@ public class Bar {
 	/**
 	 * Reference to the general repository
 	 */
-	private final GeneralReposStub repo;
+	private final GeneralReposStub repoStub;
 
 	/**
 	 * Reference to the table
@@ -62,7 +62,7 @@ public class Bar {
 	 */
 	private boolean courseFinished;
 
-	public Bar(GeneralReposStub reposStub, TableStub table) {
+	public Bar(GeneralReposStub repoStub, TableStub tableStub) {
 
 		students = new BarClientProxy[SimulPar.N];
 		for (int i = 0; i < SimulPar.N; i++) {
@@ -76,7 +76,7 @@ public class Bar {
 			System.exit(1);
 		}
 
-		this.tableStub = table;
+		this.tableStub = tableStub;
 		this.nPendingRequests = 0;
 		this.nStudentsInRestaurant = 0;
 		this.studentBeingAnswered = -1;
@@ -87,7 +87,7 @@ public class Bar {
 			studentsGreeted[i] = false;
 		}
 
-		this.repo = reposStub;
+		this.repoStub = repoStub;
 	}
 
 	public synchronized char lookAround() {
@@ -112,12 +112,13 @@ public class Bar {
 		return req.type;
 	}
 
+	//TODO ver if se houver erros
 	public synchronized void prepareTheBill() {
 
 		BarClientProxy waiter = ((BarClientProxy) Thread.currentThread());
 		if (waiter.getWaiterState() != WaiterStates.PROCESSING_THE_BILL) {
 			waiter.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-			repo.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+			repoStub.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
 		}
 	}
 
@@ -132,7 +133,7 @@ public class Bar {
 		nStudentsInRestaurant--;
 		studentBeingAnswered = -1;
 
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repoStub.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 
 		if (nStudentsInRestaurant == 0)
 			return true;
@@ -150,7 +151,7 @@ public class Bar {
 
 		if(student.getStudentState() != StudentStates.GOING_TO_THE_RESTAURANT) {
 			students[id].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
-			repo.setStudentState(id, StudentStates.GOING_TO_THE_RESTAURANT);
+			repoStub.setStudentState(id, StudentStates.GOING_TO_THE_RESTAURANT);
 		}
 		
 		nStudentsInRestaurant++;
@@ -168,8 +169,8 @@ public class Bar {
 		nPendingRequests++;
 
 		students[id].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
-		repo.updateSeatsAtTable(nStudentsInRestaurant - 1, id);
+		repoStub.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repoStub.updateSeatsAtTable(nStudentsInRestaurant - 1, id);
 
 		notifyAll();
 	}
@@ -235,7 +236,7 @@ public class Bar {
 		courseFinished = false;
 
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		repoStub.setChefState(((Chef) Thread.currentThread()).getChefState());
 
 		notifyAll();
 	}
@@ -255,7 +256,7 @@ public class Bar {
 		notifyAll();
 
 		students[id].setStudentState(StudentStates.GOING_HOME);
-		repo.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
+		repoStub.setStudentState(id, ((Student) Thread.currentThread()).getStudentState());
 
 		while (studentsGreeted[id] == false) {
 			try {

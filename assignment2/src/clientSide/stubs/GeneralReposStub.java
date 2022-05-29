@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package clientSide.stubs;
 
 import commInfra.ClientCom;
@@ -95,6 +91,41 @@ public class GeneralReposStub {
 		}
 		com.close();
 	}
+	
+	/**
+	 * Write in the logging file the updated student state
+	 * @param id student id
+	 * @param state student state to be set
+	 * @param hold specifies if prints line of report status
+	 */
+	public void setStudentState(int id, int state, boolean hold)
+	{
+	   	ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+			
+		com = new ClientCom (serverHostName, serverPortNum);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.STSST2, id, state, hold);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.STSST2)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();		
+	}
 
 	/**
 	 * Set chef state.
@@ -154,6 +185,72 @@ public class GeneralReposStub {
 		com.close();
 	}
 
+	/**
+	 * Set variable nCourses and report in the logging file
+	 * @param n nCourses to set
+	 */
+	public void setnCourses(int nCourses)
+	{
+	   	ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+			
+		com = new ClientCom (serverHostName, serverPortNum);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.STCOUR, nCourses);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.SACK)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();		
+	}
+	
+	/**
+	 * Set variable nPortions and report status in the logging file
+	 * @param value nCourses value to set
+	 */
+	public void setnPortions(int value)
+	{
+	   	ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+			
+		com = new ClientCom (serverHostName, serverPortNum);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.STPOR, value);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.SACK)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();		
+	}
+	
 	public void updateSeatsAtTable(int studentID, int studentSeat) {
 		ClientCom com; // communication channel
 		Message outMessage, // outgoing message
@@ -178,6 +275,40 @@ public class GeneralReposStub {
 		}
 		com.close();
 	}
+	
+	/**
+	 * Update the leaving of a student in the seats of the table
+	 * @param id student id to leave table
+	 */
+	public void updateSeatsAtLeaving(int id)
+	{
+	   	ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+			
+		com = new ClientCom (serverHostName, serverPortNum);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.STUSATL, id);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.SACK)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();		
+	}
+	
 
 	public void shutdown() {
 		ClientCom com; // communication channel

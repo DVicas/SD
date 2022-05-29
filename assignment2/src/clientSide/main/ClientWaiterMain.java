@@ -23,17 +23,17 @@ public class ClientWaiterMain {
 		int kitchenServerPortNum = -1; // port number for listening to service requests
 		String genReposServerHostName;
 		int genReposServerPortNum = -1;
-		BarStub bar; // remote reference to the bar
-		TableStub table;
-		KitchenStub kitchen;
-		GeneralReposStub genReposStub; // remote reference to the general repository
+
+		BarStub barStub; // remote reference to the bar
+		TableStub tableStub;
+		KitchenStub kitchenStub;
+		GeneralReposStub repoStub; // remote reference to the general repository
 
 		String fileName;
 
-		Waiter waiter;
+		Waiter waiter; // waiter thread
 
 		/* getting problem runtime parameters */
-
 
 		if (args.length != 9) {
 			GenericIO.writelnString("Wrong number of parameters!");
@@ -89,15 +89,16 @@ public class ClientWaiterMain {
 		}
 
 		fileName = args[8];
-		
-		// Initialization
-		bar = new BarStub(barServerHostName, barServerPortNum);
-		table = new TableStub(tableServerHostName, tableServerPortNum);
-		kitchen = new KitchenStub(kitchenServerHostName, kitchenServerPortNum);
-		genReposStub = new GeneralReposStub(genReposServerHostName, genReposServerPortNum);
-		genReposStub.initSimulation(fileName, 10);
 
-		waiter = new Waiter("Waiter", table, kitchen, bar);
+		// Initialization
+		
+		barStub = new BarStub(barServerHostName, barServerPortNum);
+		tableStub = new TableStub(tableServerHostName, tableServerPortNum);
+		kitchenStub = new KitchenStub(kitchenServerHostName, kitchenServerPortNum);
+		repoStub = new GeneralReposStub(genReposServerHostName, genReposServerPortNum);
+//		repoStub.initSimulation(fileName, 10);
+
+		waiter = new Waiter("Waiter", tableStub, kitchenStub, barStub);
 
 		// Start of simulation
 		waiter.start();
@@ -109,10 +110,9 @@ public class ClientWaiterMain {
 			e.printStackTrace();
 		}
 
-		bar.shutdown();
-		kitchen.shutdown();
-		table.shutdown();
-		genReposStub.shutdown();
+		barStub.shutdown();
+		tableStub.shutdown();
+		repoStub.shutdown();
 
 	}
 }

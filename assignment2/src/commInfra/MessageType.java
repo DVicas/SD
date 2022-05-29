@@ -550,34 +550,58 @@ public class MessageType {
 	public static final int STSST = 89;
 
 	/**
+	 * setStudentState (REQUEST).
+	 */
+
+	public static final int STSST2 = 90;
+
+	
+	/**
 	 * setWaiterState (REQUEST).
 	 */
 
-	public static final int STWST = 90;
+	public static final int STWST = 91;
 
 	/**
 	 * setChefState (REQUEST).
 	 */
 
-	public static final int STCST = 91;
+	public static final int STCST = 92;
+	
 	/**
 	 * update seats at table (REQUEST).
 	 */
+	public static final int STUSAT = 93;
+	
+	/**
+	 * set number of Courses
+	 */
+	public static final int STCOUR = 94; 
+	
+	/**
+	 * set number of portions
+	 */
+	public static final int STPOR = 95;
+	
+	/**
+	 * update students leaving 
+	 */
+	public static final int STUSATL = 96;
 
-	public static final int STUSAT = 92;
 	/**
 	 * Setting acknowledged (reply).
 	 */
-
-	public static final int SACK = 93;
+	public static final int SACK = 97;
+	
+	
 	
 	////////// TABLE TYPES ///////////
 	
-	public static final int REQSFTA = 94;
+	public static final int REQSFTA = 98;
 
-    public static final int SFTADONE = 95;
+    public static final int SFTADONE = 99;
 
-    public static final int REQSLTA = 96;
+    public static final int REQSLTA = 100;
 
-    public static final int SLTADONE = 97;
+    public static final int SLTADONE = 101;
 }

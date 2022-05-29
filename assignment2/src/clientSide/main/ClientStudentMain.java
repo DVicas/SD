@@ -26,9 +26,11 @@ public class ClientStudentMain {
 		int tableServerPortNum = -1;
 		String reposServerName;
 		int reposServerPortNum = -1;
-		BarStub bar; // remote reference to the bar
-		TableStub table;
-		GeneralReposStub reposStub;
+		
+		BarStub barStub; // remote reference to the bar
+		TableStub tableStub;
+		GeneralReposStub repoStub;
+		
 		Student[] students = new Student[SimulPar.N];
 
 		/* getting problem runtime parameters */
@@ -75,12 +77,12 @@ public class ClientStudentMain {
 
 		// Initialization
 
-		bar = new BarStub(barServerHostName, barServerPortNum);
-		table = new TableStub(tableServerHostName, tableServerPortNum);
-		reposStub = new GeneralReposStub(reposServerName, reposServerPortNum);
+		barStub = new BarStub(barServerHostName, barServerPortNum);
+		tableStub = new TableStub(tableServerHostName, tableServerPortNum);
+		repoStub = new GeneralReposStub(reposServerName, reposServerPortNum);
 
 		for (int i = 0; i < SimulPar.N; i++) {
-			students[i] = new Student("Student_" + i, i, table, bar);
+			students[i] = new Student("Student_" + i, i, tableStub, barStub);
 		}
 
 		// Start of simulation
@@ -97,8 +99,8 @@ public class ClientStudentMain {
 			}
 		}
 
-		bar.shutdown();
-		table.shutdown();
-		reposStub.shutdown();
+//		barStub.shutdown();
+//		tableStub.shutdown();
+		repoStub.shutdown();
 	}
 }

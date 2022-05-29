@@ -63,6 +63,12 @@ public class Message implements Serializable {
 
 	private int studentSeat;
 
+	private boolean studentsAtRestaurant;
+	
+	private int studentBeingAnswered;
+
+	private boolean everybodyHasEaten;
+
 	public Message(int type) {
 		this.msgType = type;
 	}
@@ -157,6 +163,13 @@ public class Message implements Serializable {
 		this.studentId = studentId;
 	}
 
+	public Message(int type, int id, int state, boolean everybodyHasEaten) {
+		this.msgType = type;
+		this.studentId = id;
+		this.everybodyHasEaten = everybodyHasEaten;	
+
+	}
+
 	public int getMsgType() {
 		return msgType;
 	}
@@ -165,7 +178,7 @@ public class Message implements Serializable {
 		return check;
 	}
 
-	public char getRequest() {
+	public char getRequestType() {
 		return request.type;
 	}
 
@@ -201,9 +214,15 @@ public class Message implements Serializable {
 		return studentSeat;
 	}
 
+	public int getStudentBeingAnswered() {
+		return studentBeingAnswered;
+	}
+
 	public String getLogFileName() {
 		return logFileName;
 	}
+	
+	public boolean getStudentsAtRestaurant() { return studentsAtRestaurant; }
 
 	@Override
 	public String toString() {
@@ -211,5 +230,6 @@ public class Message implements Serializable {
 				+ studentId + "\nStudent State: " + studentState + "\nWaiter State: " + waiterState + "\nChef State: "
 				+ chefState + "\nVar 1: " + var1 + "\nVar 2: " + var2);
 	}
+
 
 }

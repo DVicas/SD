@@ -64,14 +64,13 @@ public class Chef extends Thread {
 	}
 
 	/**
-	 * Lifecycle of the chef
+	 * Life cycle of the chef
 	 */
 
 	@Override
 	public void run() {
 
 		kitchenStub.watchTheNews();
-
 		kitchenStub.startPreparation();
 
 		boolean firstCourse = true;
@@ -85,7 +84,7 @@ public class Chef extends Thread {
 			kitchenStub.proceedToPresentation();
 
 			barStub.alertTheWaiter();
-			System.out.println("portion ready");
+//			System.out.println("portion ready");
 
 			while (!kitchenStub.haveAllPortionsBeenDelivered()) {
 				kitchenStub.haveNextPortionReady();

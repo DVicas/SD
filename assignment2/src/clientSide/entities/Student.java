@@ -15,7 +15,7 @@ public class Student extends Thread {
 		this.studentId = studentId;
 		this.tableStub = table;
 		this.barStub = bar;
-		studentState = StudentStates.GOING_TO_THE_RESTAURANT;
+		this.studentState = StudentStates.GOING_TO_THE_RESTAURANT;
 	}
 
 	public int getStudentId() {
@@ -62,10 +62,17 @@ public class Student extends Thread {
 		while (!tableStub.everyoneHasEaten()) {
 
 			tableStub.startEating();
+			
+			try {
+	            Thread.sleep((long) 250 + (long) Math.random() * 500);
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	            throw new RuntimeException(e);
+	        }
+			
 			tableStub.endEating();
 
-			while (!tableStub.hasEveryoneFinishedPortion())
-				;
+			while (!tableStub.hasEveryoneFinishedPortion());
 
 			if (tableStub.getLastToEat() == studentId) {
 				barStub.signalWaiter();
