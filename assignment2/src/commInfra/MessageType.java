@@ -1,11 +1,11 @@
 package commInfra;
 
 /**
- *   Type of the exchanged messages.
- *the
- *   Implementation of a client-server model of type 2 (server replication).
- *   Communication is based on a communication channel under the TCP protocol.
+ * Type of the exchanged messages. the Implementation of a client-server model
+ * of type 2 (server replication). Communication is based on a communication
+ * channel under the TCP protocol.
  */
+
 public class MessageType {
 	/**
 	 * Initialization of the logging file name and the number of iterations (service
@@ -544,41 +544,64 @@ public class MessageType {
 	/////////// GENERAL REPOS ////////////
 
 	/**
-	*  updateStudentState (REQUEST).
-	*/
-	
-	public static final int SETUSSTATE = 89;
-	
-	/**
-	*  updateWaiterState (REQUEST).
-	*/
-	
-	public static final int SETUWS = 90;
-	
-	/**
-	*  updateChefState (REQUEST).
-	*/
-	
-	public static final int SETUCS = 91;
-	
-	/**
-	 * updateStudentSeat (REQUEST)
+	 * setStudentState (REQUEST).
 	 */
-	public static final int SETUSSEAT = 92;
+
+	public static final int STSST = 89;
+
+	/**
+	 * setStudentState (REQUEST).
+	 */
+
+	public static final int STSST2 = 90;
+
 	
 	/**
-	*  Setting acknowledged (reply).
-	*/
+	 * setWaiterState (REQUEST).
+	 */
+
+	public static final int STWST = 91;
+
+	/**
+	 * setChefState (REQUEST).
+	 */
+
+	public static final int STCST = 92;
 	
-	public static final int SACK = 93;
+	/**
+	 * update seats at table (REQUEST).
+	 */
+	public static final int STUSAT = 93;
 	
-	///////////// TABLE TYPES /////////////
+	/**
+	 * set number of Courses
+	 */
+	public static final int STCOUR = 94; 
 	
-	public static final int REQSFTA = 94;
+	/**
+	 * set number of portions
+	 */
+	public static final int STPOR = 95;
 	
-	public static final int SFTADONE = 95;
+	/**
+	 * update students leaving 
+	 */
+	public static final int STUSATL = 96;
+
+	/**
+	 * Setting acknowledged (reply).
+	 */
+	public static final int SACK = 97;
 	
-	public static final int REQSLTA = 96;
 	
-	public static final int SLTADONE = 97;
+	
+	////////// TABLE TYPES ///////////
+	
+	public static final int REQSFTA = 98;
+
+    public static final int SFTADONE = 99;
+
+    public static final int REQSLTA = 100;
+
+    public static final int SLTADONE = 101;
 }

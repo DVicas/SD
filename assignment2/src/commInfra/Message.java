@@ -1,6 +1,9 @@
 package commInfra;
 
 import java.io.Serializable;
+import serverSide.main.*;
+import genclass.*;
+
 
 /**
  * Internal structure of the exchanged messages.
@@ -182,32 +185,32 @@ public class Message implements Serializable {
 				studentBeingAnswered = stateOrId;
 		}
 		else if (entitie == 5) {	//General repository messages
-			if (msgType == MessageType.SETUCS)
+			if (msgType == MessageType.STCST)
 				chefState = stateOrId;
-			else if (msgType == MessageType.SETUWS)
+			else if (msgType == MessageType.STWST)
 				waiterState = stateOrId;
-//			else if (msgType == MessageType.REQSETNCOURSES) {
-//				if ( stateOrId < 0 || stateOrId  > ExecuteConst.M) {	// Not a valid number of courses
-//					GenericIO.writelnString ("Invalid number of courses");
-//					System.exit (1);
-//				} 
-//				nCourses = stateOrId;
-//			}
-//			else if (msgType == MessageType.REQSETNPORTIONS) {
-//				if ( stateOrId < 0 || stateOrId  > ExecuteConst.N) {	// Not a valid number of portions
-//					GenericIO.writelnString ("Invalid number of portions");
-//					System.exit (1);
-//				}
-//				nPortions = stateOrId;
-//			}
-//			else if (msgType == MessageType.REQUPDSEATSTABLELV){
-//				if ( stateOrId < 0 || stateOrId  >= ExecuteConst.N) {	// Not a valid Student id
-//					GenericIO.writelnString ("Invalid student id");
-//					System.exit (1);
-//				}
+			else if (msgType == MessageType.STCOUR) {
+				if ( stateOrId < 0 || stateOrId  > SimulPar.M) {	// Not a valid number of courses
+					GenericIO.writelnString ("Invalid number of courses");
+					System.exit (1);
+				} 
+				nCourses = stateOrId;
+			}
+			else if (msgType == MessageType.STPOR) {
+				if ( stateOrId < 0 || stateOrId  > SimulPar.N) {	// Not a valid number of portions
+					GenericIO.writelnString ("Invalid number of portions");
+					System.exit (1);
+				}
+				nPortions = stateOrId;
+			}
+			else if (msgType == MessageType.STUSATL){
+				if ( stateOrId < 0 || stateOrId  >= SimulPar.N) {	// Not a valid Student id
+					GenericIO.writelnString ("Invalid student id");
+					System.exit (1);
+				}
 			else
 				studentID = stateOrId;
-//			}
+			}
 		}
 		else { 
 			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
@@ -258,7 +261,7 @@ public class Message implements Serializable {
 		int entity = getEntitieFromMessageType(type);
 		
 		//Update seats at the table (general repos)
-		if (msgType == MessageType.SETUSSEAT)
+		if (msgType == MessageType.STUSAT)
 			seatAtTable = stateOrSeat;
 		//salute a client (waiter in the table)
 		else if (msgType == MessageType.REQSC || msgType == MessageType.SCDONE){
@@ -429,13 +432,13 @@ public class Message implements Serializable {
 	 * Get the value of everybody has finished eating
 	 * @return true if everybody has eaten, false otherwise
 	 */
-	public boolean getHasEverybodyFinishedEating() { return (everybodyHasEaten); }
+	public boolean getHasEveryoneFinishedPortion() { return (everybodyHasEaten); }
 	
 	/**
 	 * Get the value of have all courses been eaten
 	 * @return true if all courses have been eaten, false otherwise
 	 */
-	public boolean getAllCoursesEaten() { return (haveAllCoursesBeenEaten); }
+	public boolean getEveryoneHasEaten() { return (haveAllCoursesBeenEaten); }
 	
 	/**
 	 * Get the value of should have arrived earlier
@@ -552,11 +555,15 @@ public class Message implements Serializable {
 			case MessageType.SHUT:			case MessageType.SHUTDONE:
 				return 4;
 			//GeneralRepo Message
-			case MessageType.SETUCS:
-			case MessageType.SETUWS:
-			case MessageType.SETUSSTATE:
-			case MessageType.SETUSSEAT:
+			case MessageType.STCST:
+			case MessageType.STWST:
+			case MessageType.STSST:
+			case MessageType.STUSAT:
+			case MessageType.STCOUR:
+			case MessageType.STPOR:
+			case MessageType.STUSATL:
 			case MessageType.SACK:
+			
 				return 5;
 			default:
 				return -1;
@@ -594,4 +601,5 @@ public class Message implements Serializable {
 				"\nHold = " + hold + " Seat at the table = " + seatAtTable +
 				"");
 	}
+
 }
