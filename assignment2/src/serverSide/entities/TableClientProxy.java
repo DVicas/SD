@@ -56,6 +56,12 @@ public class TableClientProxy extends Thread implements StudentCloning, WaiterCl
 	private int waiterState;
 
 	/**
+	 * Id of student being answered
+	 */
+	
+	private int studentBeingAnswered;
+	
+	/**
 	 * Instantiation of a client proxy.
 	 *
 	 * @param sconi      communication channel
@@ -219,7 +225,7 @@ public class TableClientProxy extends Thread implements StudentCloning, WaiterCl
 		return 0;
 	}
 
-		/**
+	/**
 	 * Set studentBeingAnswered Id
 	 * 	@param id studentBeingAnswered ID
 	 */

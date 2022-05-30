@@ -39,28 +39,28 @@ public class GeneralReposStub {
 		this.serverPortNum = serverPortNumb;
 	}
 
-	public void initSimulation(String fileName, int nIter) {
-		ClientCom com; // communication channel
-		Message outMessage, // outgoing message
-				inMessage; // incoming message
-
-		com = new ClientCom(serverHostName, serverPortNum);
-		while (!com.open()) {
-			try {
-				Thread.sleep((long) (1000));
-			} catch (InterruptedException e) {
-			}
-		}
-		outMessage = new Message(MessageType.SETNFIC, fileName, nIter);
-		com.writeObject(outMessage);
-		inMessage = (Message) com.readObject();
-		if (inMessage.getMsgType() != MessageType.NFICDONE) {
-			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid message type!");
-			GenericIO.writelnString(inMessage.toString());
-			System.exit(1);
-		}
-		com.close();
-	}
+//	public void initSimulation(String fileName, int nIter) {
+//		ClientCom com; // communication channel
+//		Message outMessage, // outgoing message
+//				inMessage; // incoming message
+//
+//		com = new ClientCom(serverHostName, serverPortNum);
+//		while (!com.open()) {
+//			try {
+//				Thread.sleep((long) (1000));
+//			} catch (InterruptedException e) {
+//			}
+//		}
+//		outMessage = new Message(MessageType.SETNFIC, fileName, nIter);
+//		com.writeObject(outMessage);
+//		inMessage = (Message) com.readObject();
+//		if (inMessage.getMsgType() != MessageType.NFICDONE) {
+//			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid message type!");
+//			GenericIO.writelnString(inMessage.toString());
+//			System.exit(1);
+//		}
+//		com.close();
+//	}
 
 	/**
 	 * Set student state.
@@ -148,6 +148,7 @@ public class GeneralReposStub {
 		outMessage = new Message(MessageType.STCST, 1, state);
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
+		
 		if (inMessage.getMsgType() != MessageType.SACK) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid message type!");
 			GenericIO.writelnString(inMessage.toString());

@@ -71,7 +71,7 @@ public class ServerBarMain {
 			GenericIO.writelnString("args[2] is not a number!");
 			System.exit(1);
 		}
-		if ((reposPortNumb < 4000) || (reposPortNumb >= 65536)) {
+		if ((tablePortNumb < 4000) || (tablePortNumb >= 65536)) {
 			GenericIO.writelnString("args[2] is not a valid port number!");
 			System.exit(1);
 		}

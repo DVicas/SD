@@ -72,7 +72,7 @@ public class BarStub {
 		}
 		
 		//ver OR
-		if ((inMessage.getStudentState() != StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)) {
+		if ((inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Student State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -115,7 +115,7 @@ public class BarStub {
 			System.exit(1);
 		}
 
-		((Student) Thread.currentThread()).setStudentState(inMessage.getStudentState());
+		com.close();
 
 //        return inMessage.getWaiterID();   // rever porque só ha 1 waiter
 	}
@@ -151,7 +151,7 @@ public class BarStub {
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
-		//TODO ver if
+
 		if(inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid student state!");
@@ -194,12 +194,6 @@ public class BarStub {
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
-
-		if ((inMessage.getStudentState() != StudentStates.GOING_HOME)) {
-			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Student State!");
-			GenericIO.writelnString(inMessage.toString());
-			System.exit(1);
-		}
 		
 		//TODO if
 		if(inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
@@ -228,7 +222,8 @@ public class BarStub {
 		}
 
 		// MESSAGES
-		outMessage = new Message(MessageType.REQLA, ((Waiter) Thread.currentThread()).getWaiterState());
+		System.out.println("###############3 "+ ((Waiter) Thread.currentThread()).getWaiterState());
+		outMessage = new Message(MessageType.REQLA);
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 		
@@ -278,9 +273,7 @@ public class BarStub {
 			System.exit(1);
 		}
 
-//		((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 
-		// return inMessage.getCheck()
 		com.close();
 		return inMessage.getStudentsAtRestaurant();
 	}
@@ -351,7 +344,7 @@ public class BarStub {
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.DELIVERING_THE_PORTIONS) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -359,8 +352,6 @@ public class BarStub {
 
 		((Chef) Thread.currentThread()).setChefState(inMessage.getChefState());
 		com.close();
-
-//            return (inMessage.getMsgType() == MessageType.ALDONE);
 	}
 
 	public int getStudentBeingAnswered() {
@@ -377,7 +368,7 @@ public class BarStub {
 		}
 
 		// MESSAGES
-		outMessage = new Message(MessageType.REQGSBA, ((Waiter) Thread.currentThread()).getWaiterState());
+		outMessage = new Message(MessageType.REQGSBA);
 
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
@@ -388,7 +379,6 @@ public class BarStub {
 			System.exit(1);
 		}
 
-		((Waiter) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 		com.close();
 
 		return inMessage.getStudentBeingAnswered();

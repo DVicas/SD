@@ -50,16 +50,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.WTNDONE) /*
-															 * && (inMessage.getMsgType() !=
-															 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-															 */) {
+		if ((inMessage.getMsgType() != MessageType.WTNDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.WAITING_FOR_AN_ORDER) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -89,16 +86,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.STPDONE) /*
-															 * && (inMessage.getMsgType() !=
-															 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-															 */) {
+		if ((inMessage.getMsgType() != MessageType.STPDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.PREPARING_THE_COURSE) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -127,16 +121,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.PTPDONE) /*
-															 * && (inMessage.getMsgType() !=
-															 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-															 */) {
+		if ((inMessage.getMsgType() != MessageType.PTPDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -165,17 +156,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.HNPRDONE) /*
-																 * && (inMessage.getMsgType() !=
-																 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-																 */) {
+		if ((inMessage.getMsgType() != MessageType.HNPRDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if ((inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS)
-				|| (inMessage.getChefState() != ChefStates.DELIVERING_THE_PORTIONS)) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -204,16 +191,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.CPDONE) /*
-															 * && (inMessage.getMsgType() !=
-															 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-															 */) {
+		if ((inMessage.getMsgType() != MessageType.CPDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.PREPARING_THE_COURSE) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -237,24 +221,20 @@ public class KitchenStub {
 		}
 
 		// MESSAGES
-		outMessage = new Message(MessageType.REQHAPBD, ((Chef) Thread.currentThread()).getChefState());
+		outMessage = new Message(MessageType.REQHAPBD);
 
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.HAPBDDONE) /*
-																 * && (inMessage.getMsgType() !=
-																 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-																 */) {
+		if ((inMessage.getMsgType() != MessageType.HAPBDDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		((Chef) Thread.currentThread()).setChefState(inMessage.getChefState());
 		com.close();
 
-		return inMessage.getCheck();
+		return inMessage.getAllPortionsBeenDelivered();
 	}
 
 	/**
@@ -276,24 +256,20 @@ public class KitchenStub {
 		}
 
 		// MESSAGES
-		outMessage = new Message(MessageType.REQHOBC, ((Chef) Thread.currentThread()).getChefState());
+		outMessage = new Message(MessageType.REQHOBC);
 
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.HOBCDONE) /*
-																 * && (inMessage.getMsgType() !=
-																 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-																 */) {
+		if ((inMessage.getMsgType() != MessageType.HOBCDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		((Chef) Thread.currentThread()).setChefState(inMessage.getChefState());
 		com.close();
 
-		return inMessage.getCheck();
+		return inMessage.getHasOrderBeenCompleted();
 	}
 
 	/**
@@ -319,16 +295,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.CUDONE) /*
-															 * && (inMessage.getMsgType() !=
-															 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-															 */) {
+		if ((inMessage.getMsgType() != MessageType.CUDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getChefState() != ChefStates.CLOSING_SERVICE) {
+		if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Chef State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -370,7 +343,7 @@ public class KitchenStub {
 			System.exit(1);
 		}
 
-		if (inMessage.getWaiterState() != WaiterStates.APPRAISING_SITUATION) {
+		if (inMessage.getWaiterState() < WaiterStates.APPRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Waiter State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -399,16 +372,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.HNTCDONE) /*
-																 * && (inMessage.getMsgType() !=
-																 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-																 */) {
+		if ((inMessage.getMsgType() != MessageType.HNTCDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getWaiterState() != WaiterStates.PLACING_THE_ORDER) {
+		if (inMessage.getWaiterState() < WaiterStates.APPRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Waiter State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
@@ -437,16 +407,13 @@ public class KitchenStub {
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.CPORDONE) /*
-																 * && (inMessage.getMsgType() !=
-																 * MessageType.FALTA_DAR_NOME_A_ESTA_MERDA)
-																 */) {
+		if ((inMessage.getMsgType() != MessageType.CPORDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);
 		}
 
-		if (inMessage.getWaiterState() != WaiterStates.WAITING_FOR_PORTION) {
+		if (inMessage.getWaiterState() < WaiterStates.APPRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Waiter State!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);

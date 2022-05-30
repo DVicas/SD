@@ -1,6 +1,8 @@
 package serverSide.sharedRegions;
 
+import clientSide.entities.*;
 import commInfra.*;
+import serverSide.entities.GeneralReposClientProxy;
 
 /**
  * Interface to the General Repository of Information.
@@ -42,53 +44,40 @@ public class GeneralReposInterface {
 
 	public Message processAndReply(Message inMessage) throws MessageException {
 		Message outMessage = null; // mensagem de resposta
-		/*
-		 * // validation of the incoming message
-		 * 
-		 * switch (inMessage.getMsgType ()) { case MessageType.SETNFIC: if
-		 * (inMessage.getLogFName () == null) throw new MessageException
-		 * ("Name of the logging file is not present!", inMessage); else if
-		 * (inMessage.getNIter () <= 0) throw new MessageException
-		 * ("Wrong number of iterations!", inMessage); break; case MessageType.STBST: if
-		 * ((inMessage.getBarbId () < 0) || (inMessage.getBarbId () >= SimulPar.M))
-		 * throw new MessageException ("Invalid barber id!", inMessage); else if
-		 * ((inMessage.getBarbState () != BarberStates.SLEEPING) &&
-		 * (inMessage.getBarbState () != BarberStates.INACTIVITY)) throw new
-		 * MessageException ("Invalid barber state!", inMessage); break; case
-		 * MessageType.STCST: if ((inMessage.getCustId () < 0) || (inMessage.getCustId
-		 * () >= SimulPar.N)) throw new MessageException ("Invalid customer id!",
-		 * inMessage); else if ((inMessage.getCustState () <
-		 * CustomerStates.DAYBYDAYLIFE) || (inMessage.getCustState () >
-		 * CustomerStates.CUTTHEHAIR)) throw new MessageException
-		 * ("Invalid customer state!", inMessage); break; case MessageType.STBCST: if
-		 * ((inMessage.getBarbId () < 0) || (inMessage.getBarbId () >= SimulPar.M))
-		 * throw new MessageException ("Invalid barber id!", inMessage); else if
-		 * ((inMessage.getBarbState () != BarberStates.SLEEPING) &&
-		 * (inMessage.getBarbState () != BarberStates.INACTIVITY)) throw new
-		 * MessageException ("Invalid barber state!", inMessage); if
-		 * ((inMessage.getCustId () < 0) || (inMessage.getCustId () >= SimulPar.N))
-		 * throw new MessageException ("Invalid customer id!", inMessage); else if
-		 * ((inMessage.getCustState () < CustomerStates.DAYBYDAYLIFE) ||
-		 * (inMessage.getCustState () > CustomerStates.CUTTHEHAIR)) throw new
-		 * MessageException ("Invalid customer state!", inMessage); break; case
-		 * MessageType.SHUT: // check nothing break; default: throw new MessageException
-		 * ("Invalid message type!", inMessage); }
-		 * 
-		 * // processing
-		 * 
-		 */
-
-		switch (inMessage.getMsgType())
-
+		
+		switch(inMessage.getMsgType())
 		{
-		case MessageType.SETNFIC:
-			repos.initSimulation(inMessage.getLogFileName(), inMessage.getNIter());
-			outMessage = new Message(MessageType.NFICDONE);
+		// verify Chef state
+		case MessageType.STCST:
+			if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
+				throw new MessageException ("Invalid Chef state!", inMessage);
 			break;
+		// verify Waiter state
+		case MessageType.STWST:
+			if (inMessage.getWaiterState() < WaiterStates.APPRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
+				throw new MessageException("Invalid Waiter state!", inMessage);
+			break;
+		// verify Student state
 		case MessageType.STSST:
-			repos.setStudentState(inMessage.getStudentId(), inMessage.getStudentState());
-			outMessage = new Message(MessageType.SACK);
+		case MessageType.STSST2:
+			if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
+				throw new MessageException("Invalid Student state!", inMessage);
 			break;
+		// verify only message type
+		case MessageType.STCOUR:
+		case MessageType.STPOR:
+		case MessageType.STUSAT:
+		case MessageType.STUSATL:
+		case MessageType.SHUT:
+			break;
+		default:
+			throw new MessageException ("Invalid message type!", inMessage);
+		}
+		
+		/* Processing of the incoming message */
+
+		switch(inMessage.getMsgType())
+		{
 		case MessageType.STCST:
 			repos.setChefState(inMessage.getChefState());
 			outMessage = new Message(MessageType.SACK);
@@ -97,16 +86,40 @@ public class GeneralReposInterface {
 			repos.setWaiterState(inMessage.getWaiterState());
 			outMessage = new Message(MessageType.SACK);
 			break;
+		case MessageType.STSST:
+		case MessageType.STSST2:
+			if (inMessage.getMsgType() == MessageType.SACK) {
+				repos.setStudentState(inMessage.getStudentId(), inMessage.getStudentState());
+				outMessage = new Message(MessageType.SACK);
+				break;
+			} else { 
+				repos.setStudentState(inMessage.getStudentId(), inMessage.getStudentState(), inMessage.getHold());
+				outMessage = new Message(MessageType.SACK);
+			}
+			break;
+		case MessageType.STCOUR:
+			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getNCourses());
+			repos.setnCourses(((GeneralReposClientProxy) Thread.currentThread()).getValue());
+			outMessage = new Message(MessageType.SACK);
+			break;
+		case MessageType.STPOR:
+			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getNPortions());
+			repos.setnPortions(((GeneralReposClientProxy) Thread.currentThread()).getValue());
+			outMessage = new Message(MessageType.SACK);
+			break;
 		case MessageType.STUSAT:
-			repos.setWaiterState(inMessage.getStudentState());
+			repos.updateSeatsAtTable(inMessage.getSeatAtTable(), inMessage.getStudentId());
+			outMessage = new Message(MessageType.SACK);
+			break;
+		case MessageType.STUSATL:
+			repos.updateSeatsAtTable(inMessage.getStudentId(), -1);
 			outMessage = new Message(MessageType.SACK);
 			break;
 		case MessageType.SHUT:
 			repos.shutdown();
-			outMessage = new Message(MessageType.SHUTDONE);
+			outMessage = new Message(MessageType.SACK);
 			break;
 		}
-
 		return (outMessage);
 	}
 
