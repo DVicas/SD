@@ -1,5 +1,5 @@
 echo "Compiling source code."
-javac */*.java */*/*.java
+javac -target 8 -cp home/diogo/Documents/SD/SD/assignment2/src/genclass.jar */*.java */*/*.java
 echo "Distributing intermediate code to the different execution environments."
 echo "  General Repository of Information"
 rm -rf dirGeneralRepos
@@ -91,4 +91,4 @@ rm -f  dirWaiter.zip
 zip -rq dirWaiter.zip dirWaiter
 echo "  Students"
 rm -f  Students.zip
-zip -rq Students.zip dirStudents
+zip -rq dirStudents.zip dirStudents
