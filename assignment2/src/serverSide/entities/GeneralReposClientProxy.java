@@ -1,7 +1,6 @@
 package serverSide.entities;
 
 import serverSide.sharedRegions.*;
-import clientSide.entities.*;
 import commInfra.*;
 import genclass.GenericIO;
 

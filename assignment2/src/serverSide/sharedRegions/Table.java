@@ -2,8 +2,6 @@ package serverSide.sharedRegions;
 
 import serverSide.entities.*;
 import serverSide.main.*;
-import serverSide.sharedRegions.*;
-
 import clientSide.entities.*;
 import clientSide.stubs.GeneralReposStub;
 

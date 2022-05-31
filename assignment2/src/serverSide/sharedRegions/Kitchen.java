@@ -4,8 +4,6 @@ import serverSide.main.*;
 import serverSide.entities.*;
 import clientSide.entities.*;
 import clientSide.stubs.*;
-import commInfra.*;
-import genclass.GenericIO;
 
 public class Kitchen {
 
