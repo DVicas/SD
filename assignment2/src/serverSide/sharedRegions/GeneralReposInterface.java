@@ -108,7 +108,7 @@ public class GeneralReposInterface {
 			outMessage = new Message(MessageType.PORDONE);
 			break;
 		case MessageType.STUSAT:
-			repos.updateSeatsAtTable(inMessage.getSeatAtTable(), inMessage.getStudentId());
+			repos.updateSeatsAtTable(inMessage.getStudentId(), inMessage.getSeatAtTable());
 			outMessage = new Message(MessageType.SATDONE);
 			break;
 		case MessageType.STUSATL:

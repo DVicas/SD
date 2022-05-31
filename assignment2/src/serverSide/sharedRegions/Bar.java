@@ -142,8 +142,7 @@ public class Bar {
 
 	public synchronized void enter() {
 		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
-		System.out.println("################################# "+ studentId );
-		
+				
 		students[studentId] = ((BarClientProxy) Thread.currentThread());
 		students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
 		((BarClientProxy) Thread.currentThread()).setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
