@@ -563,7 +563,13 @@ public class Message implements Serializable {
 			case MessageType.STPOR:
 			case MessageType.STUSATL:
 			case MessageType.SACK:
-			
+			case MessageType.CSTDONE:
+			case MessageType.WSTDONE:
+			case MessageType.SSTDONE:
+			case MessageType.COURDONE:
+			case MessageType.PORDONE:
+			case MessageType.ATLDONE:
+				
 				return 5;
 			default:
 				return -1;

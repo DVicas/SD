@@ -1,5 +1,5 @@
 echo "Compiling source code."
-javac */*.java */*/*.java
+javac -source 8 -target 8 -cp ../genclass.jar */*.java */*/*.java
 echo "Distributing intermediate code to the different execution environments."
 echo "  General Repository of Information"
 rm -rf dirGeneralRepos
@@ -103,6 +103,20 @@ cp dirKitchen.zip /home/diogo/Documents/SD/testAss2/TheRestaurant
 cp dirChef.zip /home/diogo/Documents/SD/testAss2/TheRestaurant
 cp dirWaiter.zip /home/diogo/Documents/SD/testAss2/TheRestaurant
 cp dirStudents.zip /home/diogo/Documents/SD/testAss2/TheRestaurant
+rm -f  dirGeneralRepos.zip
+rm -f  dirBar.zip
+rm -f  dirTable.zip
+rm -f  dirKitchen.zip
+rm -f  dirChef.zip
+rm -f  dirWaiter.zip
+rm -f  dirStudents.zip
+rm -r  dirGeneralRepos
+rm -r  dirBar
+rm -r  dirTable
+rm -r  dirKitchen
+rm -r  dirChef
+rm -r  dirWaiter
+rm -r  dirStudents
 cd /home/diogo/Documents/SD/testAss2/TheRestaurant
 unzip -q dirGeneralRepos.zip
 unzip -q dirBar.zip

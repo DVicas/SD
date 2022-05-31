@@ -15,7 +15,7 @@ public class SimulPar {
 	/**
 	 * Number of entities requesting Shutdown
 	 */
-	public static final int E = 2;
+	public static final int E = 3;
 
 	/**
 	 * This class can not be initiated

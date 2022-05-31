@@ -99,8 +99,8 @@ public class ClientStudentMain {
 			}
 		}
 
-//		barStub.shutdown();
-//		tableStub.shutdown();
+		barStub.shutdown();
+		tableStub.shutdown();
 		repoStub.shutdown();
 	}
 }

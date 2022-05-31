@@ -80,44 +80,44 @@ public class GeneralReposInterface {
 		{
 		case MessageType.STCST:
 			repos.setChefState(inMessage.getChefState());
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.CSTDONE);
 			break;
 		case MessageType.STWST:
 			repos.setWaiterState(inMessage.getWaiterState());
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.WSTDONE);
 			break;
 		case MessageType.STSST:
 		case MessageType.STSST2:
-			if (inMessage.getMsgType() == MessageType.SACK) {
+			if (inMessage.getMsgType() == MessageType.SSTDONE) {
 				repos.setStudentState(inMessage.getStudentId(), inMessage.getStudentState());
-				outMessage = new Message(MessageType.SACK);
+				outMessage = new Message(MessageType.SSTDONE);
 				break;
 			} else { 
 				repos.setStudentState(inMessage.getStudentId(), inMessage.getStudentState(), inMessage.getHold());
-				outMessage = new Message(MessageType.SACK);
+				outMessage = new Message(MessageType.SSTDONE);
 			}
 			break;
 		case MessageType.STCOUR:
 			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getNCourses());
 			repos.setnCourses(((GeneralReposClientProxy) Thread.currentThread()).getValue());
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.COURDONE);
 			break;
 		case MessageType.STPOR:
 			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getNPortions());
 			repos.setnPortions(((GeneralReposClientProxy) Thread.currentThread()).getValue());
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.PORDONE);
 			break;
 		case MessageType.STUSAT:
 			repos.updateSeatsAtTable(inMessage.getSeatAtTable(), inMessage.getStudentId());
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.SATDONE);
 			break;
 		case MessageType.STUSATL:
 			repos.updateSeatsAtTable(inMessage.getStudentId(), -1);
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.ATLDONE);
 			break;
 		case MessageType.SHUT:
 			repos.shutdown();
-			outMessage = new Message(MessageType.SACK);
+			outMessage = new Message(MessageType.SHUTDONE);
 			break;
 		}
 		return (outMessage);

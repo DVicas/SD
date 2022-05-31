@@ -97,6 +97,7 @@ public class ClientChefMain {
 			e.printStackTrace();
 		}
 
+		barStub.shutdown();
 		kitchenStub.shutdown();
 		repoStub.shutdown();
 	}

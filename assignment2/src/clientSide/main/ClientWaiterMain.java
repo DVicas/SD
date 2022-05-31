@@ -110,6 +110,7 @@ public class ClientWaiterMain {
 			e.printStackTrace();
 		}
 
+		kitchenStub.shutdown();
 		barStub.shutdown();
 		tableStub.shutdown();
 		repoStub.shutdown();

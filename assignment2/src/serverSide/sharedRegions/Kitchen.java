@@ -17,9 +17,10 @@ public class Kitchen {
 	private int nPortionsReady;
 	private int nPortionsServed;
 	private int nCoursesServed;
+	private int nPortionPrepared;
 
-	private boolean handedNoteToChef;
-	private boolean receivedNote;
+//	private boolean handedNoteToChef;
+//	private boolean receivedNote;
 
 	/**
 	 * Reference to General Repositories
@@ -36,8 +37,8 @@ public class Kitchen {
 		this.nPortionsReady = 0;
 		this.nPortionsServed = 0;
 		this.nCoursesServed = 0;
-		this.handedNoteToChef = false;
-		this.receivedNote = false;
+//		this.handedNoteToChef = false;
+//		this.receivedNote = false;
 
 		this.repo = reposStub;
 	}
@@ -47,29 +48,32 @@ public class Kitchen {
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.WAITING_FOR_AN_ORDER);
 		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
-		while (!handedNoteToChef) {
+//		while (!handedNoteToChef) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 			}
-		}
+//		}
 
-		receivedNote = true;
+//		receivedNote = true;
 		notifyAll();
 	}
 
 	public synchronized void startPreparation() {
-
+		
+		repo.setnCourses(nCoursesServed+1);
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
-		handedNoteToChef = false;
+//		handedNoteToChef = false;
 
 		notifyAll();
 	}
 
 	public synchronized void proceedToPresentation() {
-
+		
+		nPortionPrepared++;
+		repo.setnPortions(nCoursesServed);
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
 		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
@@ -78,6 +82,10 @@ public class Kitchen {
 
 	public synchronized void continuePreparation() {
 
+		repo.setnCourses(nCoursesServed+1);
+		nPortionPrepared = 0;
+		repo.setnPortions(nPortionPrepared);
+		
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 	}
@@ -101,7 +109,9 @@ public class Kitchen {
 	}
 
 	public synchronized void haveNextPortionReady() {
-
+		
+		nPortionPrepared++;
+		repo.setnPortions(nPortionPrepared);
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
 		repo.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 
@@ -125,18 +135,18 @@ public class Kitchen {
 		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_THE_ORDER);
 		repo.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 
-		handedNoteToChef = true;
+//		handedNoteToChef = true;
 
 		notifyAll();
 
-		while (!receivedNote) {
+//		while (!receivedNote) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 			}
-		}
+//		}
 
-		receivedNote = false;
+//		receivedNote = false;
 	}
 
 	public synchronized void returnToBar() {
@@ -162,8 +172,8 @@ public class Kitchen {
 			nPortionsServed = 1;
 		}
 
-//		repo.setnCourses(nCoursesServed);
-//		repo.setnPortions(nPortionsServed);
+		repo.setnCourses(nCoursesServed);
+		repo.setnPortions(nPortionsServed);
 
 		notifyAll();
 	}

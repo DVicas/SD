@@ -604,4 +604,19 @@ public class MessageType {
     public static final int REQSLTA = 100;
 
     public static final int SLTADONE = 101;
+
+	public static final int CSTDONE = 102;
+
+	public static final int WSTDONE = 103;
+
+	public static final int SSTDONE = 104;
+
+	public static final int COURDONE = 105;
+
+	public static final int PORDONE = 106;
+
+	public static final int ATLDONE = 107;
+	
+	public static final int SACK2 = 108;
 }
+

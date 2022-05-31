@@ -288,12 +288,12 @@ public class TableStub {
 		}
 
 		// MESSAGES
-		outMessage = new Message(MessageType.REQPREB, ((Waiter) Thread.currentThread()).getWaiterState());
+		outMessage = new Message(MessageType.REQPB, ((Waiter) Thread.currentThread()).getWaiterState());
 
 		com.writeObject(outMessage);
 		inMessage = (Message) com.readObject();
 
-		if ((inMessage.getMsgType() != MessageType.PREBDONE)) {
+		if ((inMessage.getMsgType() != MessageType.PBDONE)) {
 			GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Invalid Message Type!");
 			GenericIO.writelnString(inMessage.toString());
 			System.exit(1);

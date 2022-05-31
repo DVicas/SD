@@ -428,7 +428,7 @@ public class Table {
 	public synchronized void shutdown() {
 		nEntities += 1;
 		if (nEntities >= 2)
-			ServerKitchenMain.waitConnection = false;
+			ServerTableMain.waitConnection = false;
 		notifyAll();
 	}
 }
