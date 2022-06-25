@@ -55,7 +55,7 @@ rm -rf dirChef/serverSide dirChef/clientSide dirChef/interfaces dirChef/commInfr
 mkdir -p dirChef/serverSide dirChef/serverSide/main dirChef/clientSide dirChef/clientSide/main dirChef/clientSide/entities \
          dirChef/interfaces dirChef/commInfra
 cp serverSide/main/Constants.class dirChef/serverSide/main
-cp clientSide/main/ClientRestaurantChefChef.class dirChef/clientSide/main
+cp clientSide/main/ClientRestaurantChef.class dirChef/clientSide/main
 cp clientSide/entities/Chef.class clientSide/entities/ChefStates.class dirChef/clientSide/entities
 cp interfaces/*.class dirChef/interfaces
 cp commInfra/*.class dirChef/commInfra

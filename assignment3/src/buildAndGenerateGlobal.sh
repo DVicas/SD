@@ -55,7 +55,7 @@ rm -rf dirChef/serverSide dirChef/clientSide dirChef/interfaces dirChef/commInfr
 mkdir -p dirChef/serverSide dirChef/serverSide/main dirChef/clientSide dirChef/clientSide/main dirChef/clientSide/entities \
          dirChef/interfaces dirChef/commInfra
 cp serverSide/main/SimulPar.class dirChef/serverSide/main
-cp clientSide/main/ClientRestaurantChefChef.class dirChef/clientSide/main
+cp clientSide/main/ClientRestaurantChef.class dirChef/clientSide/main
 cp clientSide/entities/Chef.class clientSide/entities/ChefStates.class dirChef/clientSide/entities
 cp interfaces/*.class dirChef/interfaces
 cp commInfra/*.class dirChef/commInfra
@@ -64,7 +64,7 @@ rm -rf dirWaiter/serverSide dirWaiter/clientSide dirWaiter/interfaces dirWaiter/
 mkdir -p dirWaiter/serverSide dirWaiter/serverSide/main dirWaiter/clientSide dirWaiter/clientSide/main dirWaiter/clientSide/entities \
          dirWaiter/interfaces dirWaiter/commInfra
 cp serverSide/main/SimulPar.class dirWaiter/serverSide/main
-cp clientSide/main/ClientRestaurantChefWaiter.class dirWaiter/clientSide/main
+cp clientSide/main/ClientRestaurantWaiter.class dirWaiter/clientSide/main
 cp clientSide/entities/Waiter.class clientSide/entities/WaiterStates.class dirWaiter/clientSide/entities
 cp interfaces/*.class dirWaiter/interfaces
 cp commInfra/*.class dirWaiter/commInfra 
@@ -73,7 +73,7 @@ rm -rf dirStudent/serverSide dirStudent/clientSide dirStudent/interfaces dirStud
 mkdir -p dirStudent/serverSide dirStudent/serverSide/main dirStudent/clientSide dirStudent/clientSide/main dirStudent/clientSide/entities \
          dirStudent/interfaces dirStudent/commInfra
 cp serverSide/main/SimulPar.class dirStudent/serverSide/main
-cp clientSide/main/ClientRestaurantChefStudent.class dirStudent/clientSide/main
+cp clientSide/main/ClientRestaurantStudent.class dirStudent/clientSide/main
 cp clientSide/entities/Student.class clientSide/entities/StudentStates.class dirStudent/clientSide/entities
 cp interfaces/*.class dirStudent/interfaces
 cp commInfra/*.class dirStudent/commInfra 

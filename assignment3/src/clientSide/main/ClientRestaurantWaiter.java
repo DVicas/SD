@@ -6,7 +6,7 @@ import genclass.GenericIO;
 import interfaces.*;
 import clientSide.entities.*;
 
-public class ClientRestaurantChefWaiter {
+public class ClientRestaurantWaiter {
 	
 	
 	public static void main(String[] args) 
