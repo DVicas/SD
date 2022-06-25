@@ -29,4 +29,5 @@ public interface TableInterface extends Remote {
     public int presentTheBill() throws RemoteException;
     public boolean haveAllClientsBeenServed() throws RemoteException;
     public void shutdown() throws RemoteException;
+	public int lastToEat() throws RemoteException;
 }

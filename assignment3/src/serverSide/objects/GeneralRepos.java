@@ -1,11 +1,10 @@
 package serverSide.objects;
 
-package serverSide.sharedRegions;
-
 import java.util.Objects;
 import serverSide.main.*;
 import genclass.GenericIO;
 import genclass.TextFile;
+import interfaces.GeneralReposInterface;
 import clientSide.entities.*;
 import java.rmi.*;
 
@@ -18,7 +17,7 @@ import java.rmi.*;
  * There are no internal synchronisation points.
  */
 
-public class GeneralRepos {
+public class GeneralRepos implements GeneralReposInterface {
 	/**
 	 * Name of the logging file.
 	 */
@@ -302,7 +301,7 @@ public class GeneralRepos {
 	 * @param seat student id to sit
 	 */
     @Override
-	public synchronized void updateSeatsAtTable(int id, int seat) throw RemoteException{
+	public synchronized void updateSeatsAtTable(int id, int seat) throws RemoteException{
 		this.seatsAtTable[id] = seat;
 		reportStatus();
 	}
@@ -330,7 +329,7 @@ public class GeneralRepos {
     public synchronized void shutdown() throws RemoteException {
 		nEntities += 1;
 		if (nEntities >= SimulPar.E) {
-			ServerGeneralReposMain.waitConnection = false;
+			ServerRestaurantGeneralRepos.shutdown();
 		}
 		notifyAll();
 	}

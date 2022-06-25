@@ -4,10 +4,10 @@ import java.rmi.RemoteException;
 import clientSide.entities.*;
 import interfaces.GeneralReposInterface;
 import interfaces.KitchenInterface;
-import serverSide.main.ExecuteConst;
+import serverSide.main.SimulPar;
 import serverSide.main.ServerRestaurantKitchen;
 
-public class Kitchen implements KitchenInterface{
+public class Kitchen implements KitchenInterface {
 
 	/**
 	 * Number of entities requesting shutdown
@@ -25,7 +25,7 @@ public class Kitchen implements KitchenInterface{
 	/**
 	 * Reference to General Repositories
 	 */
-	private GeneralReposStub repo;
+	private GeneralReposInterface repo;
 
 	/**
 	 * Kitchen Instantiation
@@ -33,14 +33,14 @@ public class Kitchen implements KitchenInterface{
 	 * @param reposStub
 	 */
 
-	public Kitchen(GeneralReposStub reposStub) {
+	public Kitchen(GeneralReposInterface repoStub) {
 		this.nPortionsReady = 0;
 		this.nPortionsServed = 0;
 		this.nCoursesServed = 0;
 		this.handedNoteToChef = false;
 		this.receivedNote = false;
 
-		this.repo = reposStub;
+		this.repo = repoStub;
 	}
 
     @Override
@@ -134,7 +134,7 @@ public class Kitchen implements KitchenInterface{
 		nPortionsReady++;
 		notifyAll();
 
-        return ChefStates.DELIVERING_THE_PORTIONS
+        return ChefStates.DELIVERING_THE_PORTIONS;
 	}
 
     @Override
@@ -165,8 +165,8 @@ public class Kitchen implements KitchenInterface{
 
     @Override
 	public synchronized int returnToBar() throws RemoteException {
-		repo.setWaiterState(WaiterStates.APRAISING_SITUATION);
-		return WaiterStates.APRAISING_SITUATION;
+		repo.setWaiterState(WaiterStates.APPRAISING_SITUATION);
+		return WaiterStates.APPRAISING_SITUATION;
 	}
 
     @Override
@@ -198,7 +198,7 @@ public class Kitchen implements KitchenInterface{
 	public synchronized void shutdown() {
 		nEntities += 1;
 		if (nEntities >= 2)
-			ServerKitchenMain.waitConnection = false;
+			ServerRestaurantKitchen.shutdown();;
 		notifyAll();
 	}
 }

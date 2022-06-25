@@ -12,5 +12,5 @@ public interface BarInterface extends Remote {
     public int alertTheWaiter() throws RemoteException;
     public int exit(int studentId) throws RemoteException;
     public int getStudentBeingAnswered() throws RemoteException;
-    public synchronized void shutdown() throws RemoteException;
+    public void shutdown() throws RemoteException;
 }

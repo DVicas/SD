@@ -126,7 +126,7 @@ public class Chef extends Thread {
 	
 	private void proceedToPresentation() {
 		try {
-			kitchenStub.proceedToPreparation();
+			kitchenStub.proceedToPresentation();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			System.exit(-1);

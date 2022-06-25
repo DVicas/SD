@@ -34,7 +34,7 @@ public class Table implements TableInterface {
 
 	private boolean presentingTheMenu;
 
-	private final int[] studentStates;
+	private final int[] students;
 
 	private final boolean[] seated;
 
@@ -69,9 +69,9 @@ public class Table implements TableInterface {
 		seated = new boolean[SimulPar.N];
 		readMenu = new boolean[SimulPar.N];
 
-		studentStates = new int[SimulPar.N];
+		students = new int[SimulPar.N];
 		for (int i = 0; i < SimulPar.N; i++) {
-			studentStates[i] = -1;
+			students[i] = -1;
 			seated[i] = false;
 			readMenu[i] = false;
 		}
@@ -103,7 +103,7 @@ public class Table implements TableInterface {
 	public synchronized void seatAtTable(int studentId) throws RemoteException {
 		
 		
-		studentStates[studentId] = StudentStates.TAKING_A_SEAT_AT_THE_TABLE;
+		students[studentId] = StudentStates.TAKING_A_SEAT_AT_THE_TABLE;
 		
 		seated[studentId] = true;
 
@@ -124,8 +124,8 @@ public class Table implements TableInterface {
 	@Override
 	public synchronized int readTheMenu(int studentId) throws RemoteException {
 
-		students[studentId].setStudentState(StudentStates.SELECTING_THE_COURSES);
-		repoStub.setStudentState(studentId, studentStates[studentId]);
+		students[studentId] = StudentStates.SELECTING_THE_COURSES;
+		repoStub.setStudentState(studentId, students[studentId]);
 
 		// student has read the menu
 		readMenu[studentId] = true;
@@ -133,28 +133,28 @@ public class Table implements TableInterface {
 		// wake waiter waiting for student to read the menu
 		notifyAll();
 		
-		return studentStates[studentId];
+		return students[studentId];
 	}
 	
 	@Override
 	public synchronized int prepareOrder() throws RemoteException {
 
-		studentStates[firstStudent] = StudentStates.ORGANIZING_THE_ORDER;
-		repoStub.setStudentState(firstStudent, studentStates[firstStudent]);
+		students[firstStudent] = StudentStates.ORGANIZING_THE_ORDER;
+		repoStub.setStudentState(firstStudent, students[firstStudent]);
 
 		// log his own order
 		nOrders++;
 		
-		return studentStates[firstStudent];
+		return students[firstStudent];
 	}
 
 	@Override
-	public synchronized int joinTalk(int studentId) throws RemoteException {
+	public synchronized int joinTalk() throws RemoteException {
 
-		studentStates[studentId] = StudentStates.CHATTING_WITH_COMPANIONS;
-		repoStub.setStudentState(studentId, studentStates[studentId]);
+		students[firstStudent] = StudentStates.CHATTING_WITH_COMPANIONS;
+		repoStub.setStudentState(firstStudent, students[firstStudent]);
 	
-		return studentStates[firstStudent];
+		return students[firstStudent];
 	}
 
 	@Override
@@ -196,10 +196,10 @@ public class Table implements TableInterface {
 		informingCompanion = true;
 		notifyAll();
 
-		studentStates[studentId] = StudentStates.CHATTING_WITH_COMPANIONS;
-		repoStub.setStudentState(studentId, studentStates[studentId]);
+		students[studentId] = StudentStates.CHATTING_WITH_COMPANIONS;
+		repoStub.setStudentState(studentId, students[studentId]);
 		
-		return studentStates[studentId];
+		return students[studentId];
 	}
 	
 	@Override
@@ -243,13 +243,13 @@ public class Table implements TableInterface {
 		}
 	}
 	@Override
-	public synchronized void startEating(int studentId) throws RemoteException {
+	public synchronized int startEating(int studentId) throws RemoteException {
 
 
-		System.out.printf("started %d \n", ((TableClientProxy) Thread.currentThread()).getStudentId());
+		System.out.printf("started %d \n", studentId);
 
 		students[studentId]=StudentStates.ENJOYING_THE_MEAL;
-		repoStub.setStudentState(studentId, studens[studentId]);
+		repoStub.setStudentState(studentId, students[studentId]);
 
 		try {
 			Thread.sleep((long) (1 + 40 * Math.random()));
@@ -261,7 +261,7 @@ public class Table implements TableInterface {
 	}
 
 	@Override
-	public synchronized void endEating(int studentId) throws RemoteException {
+	public synchronized int endEating(int studentId) throws RemoteException {
 
 
 		nStudentsEaten++;
@@ -319,16 +319,14 @@ public class Table implements TableInterface {
 	}
 
 	@Override
-	public synchronized boolean shouldHaveArrivedEarlier(int studentId) throws RemoteException {
-
-
+	public synchronized ReturnBoolean shouldHaveArrivedEarlier(int studentId) throws RemoteException {
 
 		if (studentId == lastStudent) {
 			students[studentId]=StudentStates.PAYING_THE_MEAL;
 			repoStub.setStudentState(studentId, students[studentId]);
-			return new ReturnBoolean(true, student[studentId]);
+			return new ReturnBoolean(true, students[studentId]);
 		} else {
-			return new ReturnBoolean(false, student[studentId]);
+			return new ReturnBoolean(false, students[studentId]);
 		}
 	}
 
@@ -350,7 +348,7 @@ public class Table implements TableInterface {
 		studentBeingAnswered = studentIdBeingAnswered;
 
 
-		repoStub.setWaiterState(WaiterStates.presentingTheMenu);
+		repoStub.setWaiterState(WaiterStates.PRESENTING_THE_MENU);
 
 		presentingTheMenu = true;
 
@@ -376,13 +374,13 @@ public class Table implements TableInterface {
 		studentBeingAnswered = -1;
 		presentingTheMenu = false;
 
-		return WaiterStates.presentingTheMenu;
+		return WaiterStates.PRESENTING_THE_MENU;
 	}
 
 	@Override
-	public synchronized void getThePad() throws RemoteException{
+	public synchronized int getThePad() throws RemoteException{
 
-		repoStub.setWaiterState(WaiterStates.takingOrder);
+		repoStub.setWaiterState(WaiterStates.TAKING_THE_ORDER);
 
 		takingOrder = true;
 		notifyAll();
@@ -398,7 +396,7 @@ public class Table implements TableInterface {
 
 		System.out.println("Waiter Got the order");
 
-		return WaiterStates.takingOrder;
+		return WaiterStates.TAKING_THE_ORDER;
 
 	}
 
@@ -408,13 +406,14 @@ public class Table implements TableInterface {
 	}
 
 	@Override
-	public synchronized void returnToBar() throws RemoteException  {
-		repoStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
+	public synchronized int returnToBar() throws RemoteException  {
+		repoStub.setWaiterState(WaiterStates.APPRAISING_SITUATION);
 
-		return WaiterStates.APRAISING_SITUATION;
+		return WaiterStates.APPRAISING_SITUATION;
 	}
 
-	public synchronized void presentTheBill() {
+	@Override
+	public synchronized int presentTheBill() throws RemoteException {
 		billPresented = true;
 
 		notifyAll();
@@ -429,7 +428,8 @@ public class Table implements TableInterface {
 		return WaiterStates.RECEIVING_PAYMENT;
 	}
 
-	public synchronized boolean haveAllClientsBeenServed() {
+	@Override
+	public synchronized boolean haveAllClientsBeenServed() throws RemoteException {
 
 		if (nStudentsServed == SimulPar.N) {
 			lastToEat = -1;
@@ -445,10 +445,11 @@ public class Table implements TableInterface {
 	 *
 	 * New operation.
 	 */
-	public synchronized void shutdown() {
+	@Override
+	public synchronized void shutdown() throws RemoteException {
 		nEntities += 1;
 		if (nEntities >= 2)
-			ServerTableMain.waitConnection = false;
+			ServerRestaurantTable.shutdown();
 		notifyAll();
 	}
 	

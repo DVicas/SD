@@ -101,7 +101,7 @@ public class ClientRestaurantStudent {
 		}
 		
 		for(int i=0; i < SimulPar.N; i++)
-			student[i] = new Student("student_"+(i+1), i, barStub, tabStub);
+			student[i] = new Student("student_"+(i+1), i, tabStub, barStub);
 		
 		/* start of the simulation */
 		for(int i=0; i < SimulPar.N; i++)

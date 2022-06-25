@@ -1,6 +1,18 @@
 package serverSide.objects;
 
-public class Bar {
+import java.rmi.*;
+
+import clientSide.entities.*;
+import commInfra.MemException;
+import commInfra.MemFIFO;
+import commInfra.Request;
+import interfaces.BarInterface;
+import interfaces.GeneralReposInterface;
+import interfaces.TableInterface;
+import serverSide.main.ServerRestaurantBar;
+import serverSide.main.SimulPar;
+
+public class Bar implements BarInterface{
     
 	/**
 	 * Number of entity groups requesting the shutdown.
@@ -23,9 +35,9 @@ public class Bar {
 	private MemFIFO<Request> reqQueue;
 
 	/**
-	 * Reference to the student threads
+	 * Reference to the student states
 	 */
-	private final BarClientProxy[] students;
+	private final int [] students;
 
 	/**
 	 * Array of booleans to keep track of the students which the waiter has already
@@ -36,12 +48,12 @@ public class Bar {
 	/**
 	 * Reference to the general repository
 	 */
-	private final GeneralReposStub repoStub;
+	private final GeneralReposInterface repoStub;
 
 	/**
 	 * Reference to the table
 	 */
-	private final TableStub tableStub;
+	private final TableInterface tableStub;
 
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is
@@ -53,11 +65,11 @@ public class Bar {
 	 * Boolean variable used to store if a course was finished or not
 	 */
 	private boolean courseFinished;
-    public Bar(GeneralReposStub repoStub, TableStub tableStub) {
+    public Bar(GeneralReposInterface repoStub, TableInterface tableStub) {
 
-    students = new BarClientProxy[SimulPar.N];
+    students = new int[SimulPar.N];
     for (int i = 0; i < SimulPar.N; i++) {
-        students[i] = null;
+        students[i] = -1;
     }
 
     try {
@@ -81,12 +93,13 @@ public class Bar {
     this.repoStub = repoStub;
 	}
 
+    @Override
     public synchronized int getStudentBeingAnswered() throws RemoteException {
     return studentBeingAnswered;
 	}
 
     @Override
-	public synchronized void alertTheWaiter() throws RemoteException {
+	public synchronized int alertTheWaiter() throws RemoteException {
 
 		System.out.println("courseFinished");
 
@@ -107,7 +120,7 @@ public class Bar {
 		nPendingRequests++;
 		courseFinished = false;
 
-		reposStub.setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repoStub.setChefState(ChefStates.DELIVERING_THE_PORTIONS);
 
 
 		notifyAll();
@@ -116,18 +129,18 @@ public class Bar {
 	}
 
 	@Override
-	public synchronized int prepareBill() throws RemoteException{
+	public synchronized int prepareTheBill() throws RemoteException{
 		//Update Waiter state
-		reposStub.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+		repoStub.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
 
 		return WaiterStates.PROCESSING_THE_BILL;
 	}
 
     @Override
-	public synchronized void enter(int studentId) throws RemoteException {
+	public synchronized int enter(int studentId) throws RemoteException {
 
-		studentState[studentId] = StudentStates.GOING_TO_THE_RESTAURANT;		
-		repoStub.setStudentState(studentId, studentState[studentId]);
+		students[studentId] = StudentStates.GOING_TO_THE_RESTAURANT;		
+		repoStub.setStudentState(studentId, students[studentId]);
 		
 		nStudentsInRestaurant++;
 		if (nStudentsInRestaurant == 1) {
@@ -147,7 +160,7 @@ public class Bar {
 
 		notifyAll();
 
-        return studentState[studentId];
+        return students[studentId];
 	}
 
     @Override
@@ -171,9 +184,9 @@ public class Bar {
     @Override
 	public synchronized void signalWaiter(int studentId, int stuState) throws RemoteException{
 
-        studentState[studentId] = stuState
+        students[studentId] = stuState;
 
-		if (studentState[studentId] == studentStates.PAYING_THE_MEAL) {
+		if (students[studentId] == StudentStates.PAYING_THE_MEAL) {
 			try {
 				reqQueue.write(new Request(studentId, 'e'));
 			} catch (MemException e) {
@@ -192,7 +205,7 @@ public class Bar {
 	} 
 
     @Override
-	public synchronized void exit(int studentId) throws RemoteException{
+	public synchronized int exit(int studentId) throws RemoteException{
 
 		Request request = new Request(studentId, 'g');
 
@@ -204,8 +217,8 @@ public class Bar {
 		nPendingRequests++;
 
 
-        studentState[studentId] = StudentStates.GOING_HOME;
-		repoStub.setStudentState(studentId, studentState[studentId]);
+        students[studentId] = StudentStates.GOING_HOME;
+		repoStub.setStudentState(studentId, students[studentId]);
 
 		notifyAll();
 		while (studentsGreeted[studentId] == false) {
@@ -217,7 +230,7 @@ public class Bar {
 		}
 		System.out.println("I want out " + studentId);
     
-        return studentState[studentId];
+        return students[studentId];
 	}
 
     @Override
@@ -253,10 +266,10 @@ public class Bar {
 
 		// Update number of students at the restaurant
 		nStudentsInRestaurant--;
-		repoStub.updateSeatsAtLeaving(studentBeingAnswered);
+//		repoStub.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
 
-        reposStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
+        repoStub.setWaiterState(WaiterStates.APPRAISING_SITUATION);
 
 		if (nStudentsInRestaurant == 0)
 			return true;
@@ -269,7 +282,7 @@ public class Bar {
 	public synchronized void shutdown() throws RemoteException {
 		nEntities += 1;
 		if (nEntities >= 3)
-			ServerBarMain.waitConnection = false; //NAOSEIOQUEEAQUIIIIIIIIIIIII
+			ServerRestaurantBar.shutdown(); //NAOSEIOQUEEAQUIIIIIIIIIIIII
 		notifyAll();
 	}
 }

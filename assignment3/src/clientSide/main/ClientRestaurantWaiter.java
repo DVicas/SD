@@ -108,7 +108,7 @@ public class ClientRestaurantWaiter {
 		}
 		
 		//initialise Waiter thread
-		waiter = new Waiter("waiter", kitStub, barStub, tabStub);
+		waiter = new Waiter("waiter", tabStub, kitStub, barStub);
 		
 		/* start of the simulation */
 		waiter.start();

@@ -1,1 +1,1 @@
-package objects;
+package serverSide.objects;

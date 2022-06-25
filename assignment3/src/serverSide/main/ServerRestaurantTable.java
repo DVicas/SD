@@ -4,6 +4,7 @@ import java.rmi.registry.*;
 import java.rmi.*;
 import java.rmi.server.*;
 import serverSide.*;
+import serverSide.objects.Table;
 import interfaces.*;
 import genclass.GenericIO;
 

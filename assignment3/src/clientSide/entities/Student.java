@@ -104,7 +104,8 @@ public class Student extends Thread {
 	
 	private void seatAtTable() {
 		try {
-			studentState = tableStub.seatAtTable(studentId);
+//			studentState = tableStub.seatAtTable(studentId);
+			tableStub.seatAtTable(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -229,7 +230,7 @@ public class Student extends Thread {
 		boolean b = false;
 		
 		try {
-			b = tableStub.hasEveryoneFinishedPortion();
+			b = tableStub.hasEveryoneFinishedPortion(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -242,7 +243,7 @@ public class Student extends Thread {
 		int last = -1;
 		
 		try {
-			last = tableStub.getLastToEat();
+			last = tableStub.lastToEat();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -266,7 +267,7 @@ public class Student extends Thread {
 		
 	private void honourTheBill() {
 		try {
-			tableStub.honourTheBill();
+			tableStub.honorTheBill();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			System.exit(-1);
