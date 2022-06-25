@@ -222,7 +222,7 @@ public class Table implements TableInterface {
 	}
 
 	@Override
-	public synchronized boolean everyoneHasEaten() {
+	public synchronized boolean everyoneHasEaten() throws RemoteException {
 
 		if (nCourses == SimulPar.M) {
 			return true;
@@ -242,39 +242,39 @@ public class Table implements TableInterface {
 			return false;
 		}
 	}
+	@Override
+	public synchronized void startEating(int studentId) throws RemoteException {
 
-	public synchronized void startEating() {
-
-		int id = ((TableClientProxy) Thread.currentThread()).getStudentId();
 
 		System.out.printf("started %d \n", ((TableClientProxy) Thread.currentThread()).getStudentId());
 
-		students[id].setStudentState(StudentStates.ENJOYING_THE_MEAL);
-		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.ENJOYING_THE_MEAL);
-		repoStub.setStudentState(id, ((TableClientProxy) Thread.currentThread()).getStudentState());
+		students[studentId]=StudentStates.ENJOYING_THE_MEAL;
+		repoStub.setStudentState(studentId, studens[studentId]);
 
 		try {
 			Thread.sleep((long) (1 + 40 * Math.random()));
 		} catch (InterruptedException e) {
 		}
 
+		return students[studentId];
+
 	}
 
-	public synchronized void endEating() {
+	@Override
+	public synchronized void endEating(int studentId) throws RemoteException {
 
-		int id = ((TableClientProxy) Thread.currentThread()).getStudentId();
 
 		nStudentsEaten++;
 
 		if (nStudentsEaten == SimulPar.N) {
 			nCourses++;
 
-			lastToEat = id;
+			lastToEat = studentId;
 		}
 
-		students[id].setStudentState(StudentStates.CHATTING_WITH_COMPANIONS);
-		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.CHATTING_WITH_COMPANIONS);
-		repoStub.setStudentState(id, ((TableClientProxy) Thread.currentThread()).getStudentState());
+		students[studentId]=StudentStates.CHATTING_WITH_COMPANIONS;
+		repoStub.setStudentState(studentId, students[studentId]);
+		return students[studentId];
 	}
 
 	public boolean isLastCourse() {
@@ -284,10 +284,10 @@ public class Table implements TableInterface {
 	public int lastToEat() {
 		return lastToEat;
 	}
+	
+	@Override
+	public synchronized boolean hasEveryoneFinishedPortion(int studentId) throws RemoteException{
 
-	public synchronized boolean hasEveryoneFinishedPortion() {
-
-		int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
 
 		// Notify all students that the last one to eat has already finished
 		if (studentId == lastToEat) {
@@ -318,21 +318,22 @@ public class Table implements TableInterface {
 		return true;
 	}
 
-	public synchronized boolean shouldHaveArrivedEarlier() {
+	@Override
+	public synchronized boolean shouldHaveArrivedEarlier(int studentId) throws RemoteException {
 
-		int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
+
 
 		if (studentId == lastStudent) {
-			students[studentId].setStudentState(StudentStates.PAYING_THE_MEAL);
-			((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.PAYING_THE_MEAL);
-			repoStub.setStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
-			return true;
+			students[studentId]=StudentStates.PAYING_THE_MEAL;
+			repoStub.setStudentState(studentId, students[studentId]);
+			return new ReturnBoolean(true, student[studentId]);
 		} else {
-			return false;
+			return new ReturnBoolean(false, student[studentId]);
 		}
 	}
 
-	public synchronized void honorTheBill() {
+	@Override
+	public synchronized void honorTheBill() throws RemoteException{
 
 		while (!billPresented) {
 			try {
@@ -344,11 +345,12 @@ public class Table implements TableInterface {
 		notifyAll();
 	}
 
-	public synchronized void saluteTheClient(int studentIdBeingAnswered) {
+	@Override
+	public synchronized int saluteTheClient(int studentIdBeingAnswered) throws RemoteException {
 		studentBeingAnswered = studentIdBeingAnswered;
 
-		((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
-		repoStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+
+		repoStub.setWaiterState(WaiterStates.presentingTheMenu);
 
 		presentingTheMenu = true;
 
@@ -373,12 +375,14 @@ public class Table implements TableInterface {
 
 		studentBeingAnswered = -1;
 		presentingTheMenu = false;
+
+		return WaiterStates.presentingTheMenu;
 	}
 
-	public synchronized void getThePad() {
+	@Override
+	public synchronized void getThePad() throws RemoteException{
 
-		((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.TAKING_THE_ORDER);
-		repoStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+		repoStub.setWaiterState(WaiterStates.takingOrder);
 
 		takingOrder = true;
 		notifyAll();
@@ -394,15 +398,20 @@ public class Table implements TableInterface {
 
 		System.out.println("Waiter Got the order");
 
+		return WaiterStates.takingOrder;
+
 	}
 
-	public synchronized void deliverPortion() {
+	@Override
+	public synchronized void deliverPortion() throws RemoteException {
 		nStudentsServed++;
 	}
 
-	public synchronized void returnToBar() {
-		((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.APPRAISING_SITUATION);
-		repoStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+	@Override
+	public synchronized void returnToBar() throws RemoteException  {
+		repoStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
+
+		return WaiterStates.APRAISING_SITUATION;
 	}
 
 	public synchronized void presentTheBill() {
@@ -410,13 +419,14 @@ public class Table implements TableInterface {
 
 		notifyAll();
 
-		((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.RECEIVING_PAYMENT);
-		repoStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+		repoStub.setWaiterState(WaiterStates.RECEIVING_PAYMENT);
 
 		try {
 			wait();
 		} catch (InterruptedException e) {
 		}
+
+		return WaiterStates.RECEIVING_PAYMENT;
 	}
 
 	public synchronized boolean haveAllClientsBeenServed() {
