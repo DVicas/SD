@@ -1,4 +1,4 @@
-xterm  -T "RMI registry" -hold -e " cd ~/test/Restaurant/dirRMIRegistry; bash set_rmiregistry_alt.sh 22150" &
+xterm  -T "RMI registry" -hold -e " cd ~/test/Restaurant/dirRMIRegistry; bash set_rmiregistry_alt.sh 22260" &
 sleep 5
 xterm  -T "Registry" -hold -e "cd ~/test/Restaurant/dirRegistry; bash registry_com_alt.sh rsa" &
 sleep 3
