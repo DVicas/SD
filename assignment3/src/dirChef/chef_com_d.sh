@@ -1,1 +1,1 @@
-java clientSide.main.ClientChef l040101-ws08.ua.pt 22150
+java clientSide.main.ClientRestaurantChefChef l040101-ws08.ua.pt 22150

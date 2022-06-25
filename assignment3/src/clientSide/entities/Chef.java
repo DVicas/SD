@@ -2,7 +2,6 @@ package clientSide.entities;
 
 import java.rmi.*;
 import interfaces.*;
-import genclass.GenericIO;
 
 /**
  * Chef thread.

@@ -1,1 +1,1 @@
-java clientSide.main.ClientStudent localhost 22150 
+java clientSide.main.ClientRestaurantStudent localhost 22150 

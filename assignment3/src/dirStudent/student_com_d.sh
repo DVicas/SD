@@ -1,1 +1,1 @@
-java clientSide.main.ClientStudent l040101-ws08.ua.pt 22150
+java clientSide.main.ClientRestaurantStudent l040101-ws08.ua.pt 22150

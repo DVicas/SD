@@ -2,12 +2,11 @@ package clientSide.main;
 
 import java.rmi.registry.*;
 import java.rmi.*;
-import java.rmi.server.*;
 import genclass.GenericIO;
 import interfaces.*;
 import clientSide.entities.*;
 
-public class ClientRestaurantWaiter {
+public class ClientRestaurantChefWaiter {
 	
 	
 	public static void main(String[] args) 

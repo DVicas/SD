@@ -7,7 +7,7 @@ import interfaces.*;
 import serverSide.main.*;
 import genclass.GenericIO;
 
-public class ClientRestaurantStudent {
+public class ClientRestaurantChefStudent {
 
 	/**
 	 *	Main method. 

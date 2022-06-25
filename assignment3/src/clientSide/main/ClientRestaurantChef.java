@@ -6,7 +6,7 @@ import interfaces.*;
 import genclass.GenericIO;
 import clientSide.entities.*;
 
-public class ClientRestaurantChef {
+public class ClientRestaurantChefChef {
 
 	/**
 	 *	Main method. 
