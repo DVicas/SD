@@ -5,4 +5,4 @@ sshpass -f password scp dirTable.zip sd207@l040101-ws04.ua.pt:test/Restaurant
 echo "Decompressing data sent to the table node."
 sshpass -f password ssh sd207@l040101-ws04.ua.pt 'cd test/Restaurant ; unzip -uq dirTable.zip'
 echo "Executing program at the table node."
-sshpass -f password ssh sd207@l040101-ws04.ua.pt 'cd test/Restaurant/dirTable ; bash ./table_com_d.sh sd207'
+sshpass -f password ssh sd207@l040101-ws04.ua.pt 'cd test/Restaurant/dirTable ; bash table_com_d.sh sd207'

@@ -5,4 +5,4 @@ sshpass -f password scp dirStudent.zip sd207@l040101-ws07.ua.pt:test/Restaurant
 echo "Decompressing data sent to the students node."
 sshpass -f password ssh sd207@l040101-ws07.ua.pt 'cd test/Restaurant ; unzip -uq dirStudent.zip'
 echo "Executing program at the students node."
-sshpass -f password ssh sd207@l040101-ws07.ua.pt 'cd test/Restaurant/dirStudent ; bash ./student_com_d.sh'
+sshpass -f password ssh sd207@l040101-ws07.ua.pt 'cd test/Restaurant/dirStudent ; bash student_com_d.sh'
