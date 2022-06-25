@@ -26,6 +26,7 @@ public class Waiter extends Thread {
 	 */
 	private BarInterface barStub;
 
+	
 	public Waiter(String name, TableInterface tableStub, KitchenInterface kitchenStub, BarInterface barStub) {
 		super(name);
 		this.tableStub = tableStub;
@@ -65,14 +66,14 @@ public class Waiter extends Thread {
 			// enter the bar
 			case 'c':
 				saluteTheClient(getStudentBeingAnswered());
-				returnToBar();
+				tabReturnToBar();
 				break;
 
 			// call the waiter
 			case 'w':
 				getThePad();
 				handNoteToChef();
-				returnToBar();
+				kitReturnToBar();
 				break;
 
 			// alert the waiter
@@ -82,14 +83,14 @@ public class Waiter extends Thread {
 					collectPortion();
 					deliverPortion();
 				}
-				returnToBar();
+				tabReturnToBar();
 				break;
 
 			// should have arrived earlier
 			case 'e':
 				prepareTheBill();
 				presentTheBill();
-				returnToBar();
+				tabReturnToBar();
 				break;
 
 			// goodbyes
@@ -104,58 +105,140 @@ public class Waiter extends Thread {
 	// bar functions
 	
 	private char lookAround() {
+		char c = '\0';
 		
+		try {
+			c = barStub.lookAround();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		if(c != 'c' && c != 'w' && c != 'a' && c != 'e' && c != 'g') {
+			GenericIO.writelnString("Invalid waiter status");
+			System.exit(1);
+		}
+		return c;
 	}
 	
 	private int getStudentBeingAnswered() {
+		int studentId = -1;
+		try {
+			studentId = barStub.getStudentBeingAnswered();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		if (studentId == -1) {
+			GenericIO.writelnString("Invalid id");
+			System.exit(-1);
+		}
 		
+		return studentId;
 	}
 	
 	private void prepareTheBill() {
-		
+		try {
+			waiterState = barStub.prepareTheBill();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean sayGoodbye() {
+		boolean b = false;
 		
+		try {
+			b = barStub.sayGoodbye();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return b;
 	}
 
 	// table functions
 	
-	private void saluteTheClient() {
-		
-	}
-	
-	private void returnToBar() {
-		
+	private void saluteTheClient(int studentId) {
+		try {
+			waiterState = tableStub.saluteTheClient(studentId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	private void getThePad() {
-		
+		try {
+			waiterState = tableStub.getThePad();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	private boolean haveAllClientsBeenServed() {
-		return true;
+		boolean b = false;
+		
+		try {
+			b = tableStub.haveAllClientsBeenServed();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return b;
 	}
 	
 	private void deliverPortion() {
-		
+		try {
+			tableStub.deliverPortion();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
-	private void returnToBar() {
-		
+	private void tabReturnToBar() {
+		try {
+			waiterState = tableStub.returnToBar();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
-	// kitchen table
+	private void presentTheBill() {
+		try {
+			waiterState = tableStub.presentTheBill();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+	
+	// kitchen functions
 	
 	private void handNoteToChef() {
-		
+		try {
+			waiterState = kitchenStub.handNoteToChef();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
-	private void returnToBar() {
-		
+	private void kitReturnToBar() {
+		try {
+			waiterState = kitchenStub.returnToBar();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	private void collectPortion() {
-		
+		try {
+			waiterState = kitchenStub.collectPortion();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 }

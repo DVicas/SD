@@ -99,17 +99,19 @@ public class Chef extends Thread {
 	
 	private void watchTheNews() {
 		try {
-			kitchenStub.watchTheNews();
+			chefState = kitchenStub.watchTheNews();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void startPreparation() {
 		try {
-			kitchenStub.startPreparation();
+			chefState = kitchenStub.startPreparation();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -118,6 +120,7 @@ public class Chef extends Thread {
 			kitchenStub.continuePreparation();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -126,50 +129,56 @@ public class Chef extends Thread {
 			kitchenStub.proceedToPreparation();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private boolean haveAllPortionsBeenDelivered() {
-		ReturnBoolean ret = null;
+		boolean b = false;
 		try {
-			ret = kitchenStub.haveAllPortionsBeenDelivered();
+			b = kitchenStub.haveAllPortionsBeenDelivered();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		ret.getBooleanVal();
+		return b;
 	}
 	
 	private void haveNextPortionReady() {
 		try {
-			kitchenStub.haveNextPortionReady();
+			chefState = kitchenStub.haveNextPortionReady();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private boolean hasTheOrderBeenCompleted() {
-		ReturnBoolean ret = null;
+		boolean b = false;
 		try {
-			ret = kitchenStub.hasTheOrderBeenCompleted();
+			b = kitchenStub.hasTheOrderBeenCompleted();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		return ret.getBooleanVal();
+		return b;
 	}
 	
 	private void cleanUp() {
 		try {
-			kitchenStub.cleanUp();
+			chefState = kitchenStub.cleanUp();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
 	private void alertTheWaiter() {
 		try {
-			barStub.alertTheWaiter();
+			chefState = barStub.alertTheWaiter();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }

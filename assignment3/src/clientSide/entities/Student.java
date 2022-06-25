@@ -89,66 +89,81 @@ public class Student extends Thread {
 		exit();
 	}
 	
+	
+	
 	private void enter() {
 		try {
-			barStub.enter();
+			studentState = barStub.enter(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
+	//nao sei qual é que precisa de studentId a ser passado
+	
 	private void seatAtTable() {
 		try {
-			tableStub.seatAtTable();
+			studentState = tableStub.seatAtTable(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void readTheMenu() {
 		try {
-			tableStub.readTheMenu();
+			studentState = tableStub.readTheMenu(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
 	private int getFirstStudent() {
-		ReturnInt ret = null;
+		int first = -1;
 		
 		try {
-			ret = tableStub.getFirstStudent();
+			first = tableStub.getFirstStudent();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		return ret.getIntVal();
+		if (first == -1) {
+			GenericIO.writelnString("invalid student id");
+			System.exit(-1);
+		}
+		return first;
 	}
 	
 	private void prepareOrder() {
 		try {
-			tableStub.prepareOrder();
+			studentState = tableStub.prepareOrder();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private boolean hasEverybodyChosen() {
-		ReturnBoolean ret = null;
+		boolean b = false;
 		
 		try {
-			ret = tableStub.hasEverybodyChosen();
+			b = tableStub.hasEverybodyChosen();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
-		return ret.getBooleanVal();
+		return b;
 	}
 
 	private void addUpOnesChoices() {
 		try {
-			tableStub.readTheMenu();
+			tableStub.addUpOnesChoice();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -157,85 +172,95 @@ public class Student extends Thread {
 			tableStub.describeOrder();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void joinTalk() {
 		try {
-			tableStub.joinTalk();
+			studentState = tableStub.joinTalk();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void informCompanion() {
 		try {
-			tableStub.informCompanion();
+			studentState = tableStub.informCompanion(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private boolean everyoneHasEaten() {
-		ReturnBoolean ret = null;
+		boolean b = false;
 		
 		try {
-			tableStub.everyoneHasEaten();
+			b = tableStub.everyoneHasEaten();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
-		return ret.getBooleanVal();
+		return b;
 	}
 	
 	private void startEating() {
 		try {
-			tableStub.startEating();
+			studentState = tableStub.startEating(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void endEating() {
 		try {
-			tableStub.endEating();
+			studentState = tableStub.endEating(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private boolean hasEveryoneFinishedPortion() {
-		ReturnBoolean ret = null;
+		boolean b = false;
 		
 		try {
-			ret = tableStub.hasEveryoneFinishedPortion();
+			b = tableStub.hasEveryoneFinishedPortion();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
-		return ret.getBooleanVal();
+		return b;
 	}
 
 	private int getLastToEat() {
-		ReturnInt ret = null;
+		int last = -1;
 		
 		try {
-			ret = tableStub.getLastToEat();
+			last = tableStub.getLastToEat();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		return ret.getIntVal();
+		return last;
 	}
 	
 	private boolean shouldHaveArrivedEarlier() {
 		ReturnBoolean ret = null;
 		
 		try {
-			tableStub.shouldHaveArrivedEarlier();
+			ret = tableStub.shouldHaveArrivedEarlier(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
+		studentState = ret.getIntStateVal();
 		return ret.getBooleanVal();
 	}
 		
@@ -244,30 +269,34 @@ public class Student extends Thread {
 			tableStub.honourTheBill();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void callWaiter() {
 		try {
-			barStub.callWaiter();
+			barStub.callWaiter(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void signalWaiter() {
 		try {
-			barStub.signalWaiter();
+			barStub.signalWaiter(studentId, studentState);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	private void exit() {
 		try {
-			barStub.exit();
+			studentState = barStub.exit(studentId);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }	

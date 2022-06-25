@@ -9,7 +9,7 @@ public interface TableInterface extends Remote {
     public void setLastStudent(int studentId) throws RemoteException;
     public void seatAtTable() throws RemoteException;
     public void readTheMenu() throws RemoteException;
-    public void prepareOrder() throws RemoteException;
+    public int prepareOrder() throws RemoteException;
     public void joinTalk() throws RemoteException;
     public boolean hasEverybodyChosen() throws RemoteException;
     public void addUpOnesChoice() throws RemoteException;
