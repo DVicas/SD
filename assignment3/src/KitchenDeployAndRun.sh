@@ -5,4 +5,4 @@ sshpass -f password scp dirKitchen.zip sd207@l040101-ws02.ua.pt:test/Restaurant
 echo "Decompressing data sent to the kitchen node."
 sshpass -f password ssh sd207@l040101-ws02.ua.pt 'cd test/Restaurant ; unzip -uq dirKitchen.zip'
 echo "Executing program at the kitchen node."
-sshpass -f password ssh sd207@l040101-ws02.ua.pt 'cd test/Restaurant/dirKitchen ; ./kitchen_com_d.sh sd207'
+sshpass -f password ssh sd207@l040101-ws02.ua.pt 'cd test/Restaurant/dirKitchen ; bash ./kitchen_com_d.sh sd207'
